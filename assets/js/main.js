@@ -81,14 +81,25 @@
     if (progressBar) progressBar.style.width = (p * 100).toFixed(1) + '%';
   }
 
+  /* ---- Parallax suave (estudio) ---- */
+  const parallax = $$('[data-parallax]');
+  function renderParallax() {
+    parallax.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+      const off = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+      el.style.transform = `translateY(${(off * -7).toFixed(2)}%)`;
+    });
+  }
+
   /* rAF throttle */
   let ticking = false;
   function onScroll() {
     onScrollHeader();
     if (reduceMotion) return;
-    if (!ticking) { requestAnimationFrame(() => { renderTour(); ticking = false; }); ticking = true; }
+    if (!ticking) { requestAnimationFrame(() => { renderTour(); renderParallax(); ticking = false; }); ticking = true; }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { if (!reduceMotion) renderTour(); }, { passive: true });
-  if (!reduceMotion) renderTour();
+  if (!reduceMotion) { renderTour(); renderParallax(); }
 })();
