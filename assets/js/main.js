@@ -7,6 +7,15 @@
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
+  /* ---- Vibración háptica al tocar (móviles compatibles) ---- */
+  if ('vibrate' in navigator && !reduceMotion) {
+    document.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' && e.target.closest('.btn, .fab, .nav-toggle, .service-card, .gallery-item, .mobile-menu a')) {
+        try { navigator.vibrate(12); } catch (_) {}
+      }
+    }, { passive: true });
+  }
+
   /* ---- Año dinámico ---- */
   const y = $('#year'); if (y) y.textContent = new Date().getFullYear();
 
