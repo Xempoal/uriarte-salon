@@ -120,22 +120,24 @@
   .hero-scroll .ln{ width:1px; height:34px; background:var(--cream); opacity:.5; animation:scrolly 1.8s ease-in-out infinite; transform-origin:top; }
   @keyframes scrolly{ 0%,100%{transform:scaleY(.4);opacity:.25;} 50%{transform:scaleY(1);opacity:.7;} }
 
-  /* ── MANIFESTO (pinned reveal) ────────────── */
+  /* ── MANIFESTO (pinned: palabras → barra → imágenes) ── */
   .manifesto{ background:var(--cream); }
-  .mani-inner{ position:relative; min-height:100svh; display:flex; align-items:center; justify-content:center; padding:120px clamp(20px,5vw,80px); gap:clamp(20px,5vw,60px); }
-  .mani-word{ flex:1; max-width:380px; }
+  .mani-stage{ position:relative; height:100svh; overflow:hidden; display:flex; align-items:center; justify-content:center; gap:clamp(20px,5vw,60px); padding:0 clamp(20px,5vw,80px); }
+  .mani-word{ position:relative; z-index:2; flex:1; max-width:380px; will-change:transform; }
   .mani-word .kicker{ display:flex; justify-content:space-between; color:var(--red); margin-bottom:14px; }
   .mani-word h2{ font-size:clamp(54px,10vw,120px); color:var(--red); line-height:0.92; font-weight:500; margin-bottom:16px; }
   .mani-word p{ font-size:12.5px; line-height:1.7; letter-spacing:0.04em; color:var(--ink-soft); text-transform:uppercase; max-width:34ch; }
   .mani-word.right{ text-align:right; }
-  .mani-word.right .kicker{ }
   .mani-word.right p{ margin-left:auto; }
-  .mani-bar{
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:6px; height:0; background:var(--red); overflow:hidden;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .mani-bar img{ position:absolute; width:max(86vw,520px); height:100%; left:50%; top:0; transform:translateX(-50%); object-fit:cover; opacity:0; }
+  /* la línea/barra roja del centro */
+  .mani-bar{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:40px; height:3px; background:var(--red); z-index:3; will-change:width,height; }
+  /* paneles de imagen que emergen arriba y abajo */
+  .mani-reveal{ position:absolute; inset:0; z-index:4; pointer-events:none; }
+  .mr-panel{ position:absolute; left:0; right:0; height:50.5%; overflow:hidden; will-change:transform; }
+  .mr-panel.top{ top:0; }
+  .mr-panel.bottom{ bottom:0; }
+  .mr-panel img{ width:100%; height:100%; object-fit:cover; }
+  .mr-text{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:6; width:min(82vw,640px); text-align:center; color:var(--cream); font-size:clamp(12px,1.5vw,17px); line-height:1.7; letter-spacing:0.1em; text-transform:uppercase; opacity:0; text-shadow:0 2px 24px rgba(0,0,0,.5); }
 
   /* ── PILLARS ──────────────────────────────── */
   .pillars{ position:relative; background:var(--maroon); color:var(--cream); overflow:hidden; padding:clamp(80px,12vw,180px) 0; }
@@ -154,21 +156,28 @@
   .sec-head .label{ color:var(--red); }
   .svc-row{
     display:grid; grid-template-columns:54px 1fr auto; gap:clamp(12px,3vw,40px); align-items:center;
-    padding:clamp(20px,3vw,34px) 0; border-bottom:1px solid rgba(22,18,16,.14); position:relative; cursor:pointer;
+    padding:clamp(20px,3vw,34px) clamp(14px,2vw,26px); border-bottom:1px solid rgba(22,18,16,.14);
+    position:relative; isolation:isolate; transition:padding .5s var(--ease);
   }
+  /* relleno rojo que sube al hacer hover */
+  .svc-row::before{ content:''; position:absolute; inset:0; background:var(--red); transform:scaleY(0); transform-origin:bottom; transition:transform .5s var(--ease); z-index:-1; }
+  .svc-row>*{ transition:color .35s; }
   .svc-row .svc-num{ font-size:12px; letter-spacing:0.12em; color:var(--red); }
   .svc-main{ display:flex; flex-direction:column; gap:8px; }
   .svc-main h3{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(28px,5vw,56px); line-height:0.98; color:var(--ink); transition:color .35s, transform .45s var(--ease); }
-  .svc-main p{ font-size:12px; line-height:1.6; color:var(--ink-soft); max-width:48ch; }
-  .svc-price{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(18px,2.4vw,26px); color:var(--ink); white-space:nowrap; }
-  .svc-price small{ display:block; font-family:'Inter',sans-serif; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--red); margin-bottom:2px; }
-  .svc-thumb{
-    position:fixed; top:0; left:0; width:230px; height:300px; pointer-events:none; z-index:120;
-    opacity:0; transform:translate(-50%,-50%) scale(.85); overflow:hidden; border-radius:2px;
-    will-change:transform,opacity; transition:opacity .3s;
+  .svc-main p{ font-size:12px; line-height:1.6; color:var(--ink-soft); max-width:48ch; transition:color .35s; }
+  @media(hover:hover){
+    .svc-row:hover{ padding-left:clamp(24px,3vw,40px); }
+    .svc-row:hover::before{ transform:scaleY(1); }
+    .svc-row:hover .svc-num,
+    .svc-row:hover .svc-main h3,
+    .svc-row:hover .svc-main p,
+    .svc-row:hover .svc-price,
+    .svc-row:hover .svc-price small{ color:var(--cream); }
+    .svc-row:hover .svc-main h3{ transform:translateX(8px); }
   }
-  .svc-thumb img{ width:100%; height:100%; object-fit:cover; }
-  @media(hover:hover){ .svc-row:hover .svc-main h3{ color:var(--red); transform:translateX(14px); } }
+  .svc-price{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(18px,2.4vw,26px); color:var(--ink); white-space:nowrap; }
+  .svc-price small{ display:block; font-family:'Inter',sans-serif; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--red); margin-bottom:2px; transition:color .35s; }
 
   /* ── GALLERY ──────────────────────────────── */
   .gallery{ background:var(--maroon); padding:clamp(60px,9vw,130px) 0; overflow:hidden; }
@@ -231,13 +240,11 @@
     .nav-group{ display:none; }
     .nav-logo{ justify-self:start; text-align:left; }
     .nav-burger{ display:block; }
-    .mani-inner{ flex-direction:column; gap:0; justify-content:center; }
-    .mani-word{ max-width:none; width:100%; text-align:center !important; }
+    .mani-stage{ flex-direction:column; gap:0; justify-content:space-between; padding:16vh clamp(20px,5vw,40px); }
+    .mani-word{ max-width:none; width:100%; text-align:center !important; flex:0 0 auto; }
     .mani-word .kicker{ justify-content:center; gap:14px; }
+    .mani-word h2{ font-size:clamp(56px,16vw,120px); }
     .mani-word.right p, .mani-word p{ margin:0 auto; }
-    .mani-word.left{ margin-bottom:46vh; }
-    .mani-word.right{ margin-top:46vh; }
-    .mani-bar img{ width:100%; }
     .pillars-grid{ grid-template-columns:1fr 1fr; gap:30px 24px; }
     .gx-a{ grid-column:1/13; aspect-ratio:4/3; }
     .gx-b{ grid-column:1/7; aspect-ratio:3/4; }
@@ -247,7 +254,6 @@
     .footer-top{ grid-template-columns:1fr 1fr; }
     .svc-row{ grid-template-columns:38px 1fr; }
     .svc-price{ grid-column:2; text-align:left; }
-    .svc-thumb{ display:none; }
   }
   @media(max-width:480px){
     .pillars-grid{ grid-template-columns:1fr; }
@@ -312,19 +318,24 @@
 
       <!-- MANIFESTO -->
       <section class="manifesto" id="manifesto">
-        <div class="mani-inner">
+        <div class="mani-stage">
           <div class="mani-word left">
             <span class="kicker label"><span>Significado</span><span>IV</span></span>
             <h2 class="serif">Uriarte</h2>
-            <p>Más que un apellido: una firma. Cada cabeza que pasa por nuestra silla lleva nuestro nombre y nuestro cuidado.</p>
-          </div>
-          <div class="mani-bar" id="maniBar">
-            <img src="assets/img/gen-portrait-2.jpg" alt="Cabello editorial" />
+            <p>Más que un apellido: una firma. Cada cabeza que pasa por nuestra silla lleva nuestro nombre.</p>
           </div>
           <div class="mani-word right">
             <span class="kicker label"><span>Estudio</span><span>VV</span></span>
             <h2 class="serif">Salón</h2>
-            <p>Un espacio donde la belleza y la conciencia trabajan en sinergia. Ven como tú eres, sin juicios.</p>
+            <p>Belleza y conciencia en sinergia. Ven como tú eres, sin juicios.</p>
+          </div>
+
+          <div class="mani-bar" id="maniBar"></div>
+
+          <div class="mani-reveal">
+            <div class="mr-panel top duotone"><img src="assets/img/gen-salon-2.jpg" alt="El estudio Uriarte" /></div>
+            <div class="mr-panel bottom duotone"><img src="assets/img/gen-portrait-2.jpg" alt="Color editorial" /></div>
+            <p class="mr-text" id="maniText">Evocar confianza · realzar lo que ya eres · acompañarte en cada etapa. Eso es hacer cabello con conciencia.</p>
           </div>
         </div>
       </section>
@@ -367,32 +378,32 @@
           <span class="label">El arte de transformar</span>
         </div>
 
-        <div class="svc-row" data-thumb="assets/img/work-1.jpg">
+        <div class="svc-row">
           <span class="svc-num">01</span>
           <div class="svc-main"><h3>Balayage</h3><p>Iluminaciones a mano alzada, transiciones impecables y un efecto natural que dura.</p></div>
           <div class="svc-price"><small>Desde</small>$2,800</div>
         </div>
-        <div class="svc-row" data-thumb="assets/img/gen-salon-1.jpg">
+        <div class="svc-row">
           <span class="svc-num">02</span>
           <div class="svc-main"><h3>Efectos de color</h3><p>De rubios glaciales a fantasías. Color vibrante diseñado para destacar.</p></div>
           <div class="svc-price"><small>Desde</small>$3,500</div>
         </div>
-        <div class="svc-row" data-thumb="assets/img/work-2.jpg">
+        <div class="svc-row">
           <span class="svc-num">03</span>
           <div class="svc-main"><h3>Corte de autor</h3><p>Cortes que entienden tu rostro, tu textura y tu estilo de vida. Movimiento a tu favor.</p></div>
           <div class="svc-price"><small>Desde</small>$850</div>
         </div>
-        <div class="svc-row" data-thumb="assets/img/work-3.jpg">
+        <div class="svc-row">
           <span class="svc-num">04</span>
           <div class="svc-main"><h3>Tratamientos capilares</h3><p>Rituales de restauración y nutrición profunda. Fuerza, brillo y suavidad de vuelta.</p></div>
           <div class="svc-price"><small>Desde</small>$1,200</div>
         </div>
-        <div class="svc-row" data-thumb="assets/img/gen-salon-2.jpg">
+        <div class="svc-row">
           <span class="svc-num">05</span>
           <div class="svc-main"><h3>Extensiones</h3><p>Largo y volumen de aspecto natural con métodos premium, colocados con precisión.</p></div>
           <div class="svc-price"><small>Desde</small>$6,500</div>
         </div>
-        <div class="svc-row" data-thumb="assets/img/gen-portrait-1.jpg">
+        <div class="svc-row">
           <span class="svc-num">06</span>
           <div class="svc-main"><h3>Cita de valoración</h3><p>El punto de partida. Un diagnóstico personal antes de cualquier servicio · bonificable.</p></div>
           <div class="svc-price"><small>Desde</small>$300</div>
@@ -534,18 +545,31 @@
       gsap.to('.hero-title', { yPercent:-40, opacity:0.2, ease:'none',
         scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
 
-      // ── MANIFESTO pinned line → image reveal ────
-      const barH = isMobile ? 64 : 70;       // vh objetivo de la barra
+      // ── MANIFESTO: palabras se juntan → barra → vertical → se oculta → imágenes ──
+      // estado inicial de los paneles (fuera de pantalla, arriba y abajo)
+      gsap.set('.mr-panel.top',    { yPercent:-101 });
+      gsap.set('.mr-panel.bottom', { yPercent:101 });
+
+      const barWide = Math.min(window.innerWidth * 0.46, 360); // px
+      const barTall = window.innerHeight * 0.82;               // px
       const tlMani = gsap.timeline({
-        scrollTrigger:{ trigger:'.manifesto', start:'top top', end:'+=140%', pin:true, scrub:1 }
+        scrollTrigger:{ trigger:'.manifesto', start:'top top', end:'+=260%', pin:true, scrub:1 }
       });
       tlMani
-        .set('#maniBar img', { opacity:0 })
-        .to('#maniBar', { height: barH + 'vh', duration:0.35, ease:'power2.inOut' })
-        .to('#maniBar img', { opacity:1, duration:0.25 }, '-=0.1')
-        .to('#maniBar', { width:'min(86vw, 560px)', duration:0.45, ease:'power3.inOut' })
-        .to('.mani-word.left',  { autoAlpha:0.15, x: isMobile?0:-40, y:isMobile?-30:0, duration:0.4 }, '<')
-        .to('.mani-word.right', { autoAlpha:0.15, x: isMobile?0: 40, y:isMobile? 30:0, duration:0.4 }, '<');
+        // 1 · las palabras se juntan hacia el centro y se desvanecen; la línea crece
+        .to('.mani-word.left',  { xPercent: isMobile?0:70, yPercent: isMobile?120:0, autoAlpha:0, duration:1 }, 0)
+        .to('.mani-word.right', { xPercent: isMobile?0:-70, yPercent: isMobile?-120:0, autoAlpha:0, duration:1 }, 0)
+        .to('#maniBar', { width:barWide, duration:1, ease:'power2.inOut' }, 0)
+        // 2 · la línea se engrosa y oscurece → barrita
+        .to('#maniBar', { height:26, backgroundColor:'#1a0605', duration:0.6, ease:'power1.inOut' })
+        // 3 · la barrita rota a vertical (alta y delgada)
+        .to('#maniBar', { width:10, height:barTall, duration:1, ease:'power3.inOut' })
+        // 4 · la barra se oculta y abre paso: las imágenes emergen de arriba y abajo
+        .to('#maniBar', { autoAlpha:0, duration:0.3 })
+        .to('.mr-panel.top',    { yPercent:0, duration:1.3, ease:'power3.inOut' }, '-=0.15')
+        .to('.mr-panel.bottom', { yPercent:0, duration:1.3, ease:'power3.inOut' }, '<')
+        // 5 · aparece el texto importante
+        .to('#maniText', { autoAlpha:1, duration:0.6, ease:'power2.out' }, '-=0.5');
 
       // ── PILLARS ghost text + big words ──────────
       gsap.to('#ghost', { xPercent:-35, ease:'none',
@@ -593,21 +617,7 @@
           onUpdate(){ el.textContent = obj.v.toFixed(decimals) + suffix; } });
       });
 
-      // ── SERVICES hover thumbnail (escritorio) ───
-      if (window.matchMedia('(hover:hover)').matches){
-        const thumb = document.createElement('div');
-        thumb.className = 'svc-thumb';
-        thumb.innerHTML = '<img alt="">';
-        document.body.appendChild(thumb);
-        const timg = thumb.querySelector('img');
-        const xT = gsap.quickTo(thumb,'x',{duration:0.5,ease:'power3'});
-        const yT = gsap.quickTo(thumb,'y',{duration:0.5,ease:'power3'});
-        document.querySelectorAll('.svc-row').forEach(row => {
-          row.addEventListener('mouseenter', () => { timg.src = row.dataset.thumb; gsap.to(thumb,{opacity:1,scale:1,duration:0.4,ease:'power3.out'}); });
-          row.addEventListener('mouseleave', () => { gsap.to(thumb,{opacity:0,scale:0.85,duration:0.3}); });
-        });
-        window.addEventListener('mousemove', e => { xT(e.clientX); yT(e.clientY); });
-      }
+      // (el hover de servicios ahora es 100% CSS: relleno rojo)
 
       ScrollTrigger.refresh();
     }
