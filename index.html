@@ -802,10 +802,13 @@
 
         // Detección de móvil para aligerar la carga (GPU móvil + pantalla de alta resolución).
         const IS_MOBILE = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
-        const BLADE_COUNT = IS_MOBILE ? 85000 : 110000;
-        // Ancho de la malla; se deriva del total para preservar la forma del campo en móvil.
+        const BLADE_COUNT = IS_MOBILE ? 48000 : 110000;
+        // Ancho de la malla; se deriva del total para preservar la forma del campo.
         const GRID_COLS = Math.round(Math.sqrt(BLADE_COUNT / 1.37));
         const FIELD_SIZE = 30;
+        // En móvil (pantalla vertical) los costados no se ven: comprimimos el campo
+        // a lo ancho para que el cabello solo se genere en la franja central visible.
+        const FIELD_X_SCALE = IS_MOBILE ? 0.6 : 1.0;
         const BACKGROUND_HEX = '#0a0604';
         const GROUND_HEX = '#0a0604';
         // Paleta capilar rojizo cobrizo (copper red)
@@ -909,7 +912,7 @@
             const row = instanceIndex.div(GRID_COLS);
             const jx = hash(instanceIndex).sub(0.5);
             const jz = hash(instanceIndex.add(7919)).sub(0.5);
-            const wx = col.toFloat().add(jx).div(float(GRID_COLS)).sub(0.5).mul(FIELD_SIZE);
+            const wx = col.toFloat().add(jx).div(float(GRID_COLS)).sub(0.5).mul(FIELD_SIZE).mul(FIELD_X_SCALE);
             const wz = row.toFloat().add(jz).div(float(GRID_COLS)).sub(0.5).mul(FIELD_SIZE);
             blade.x.assign(wx);
             blade.y.assign(wz);
@@ -1342,7 +1345,8 @@
         renderer.domElement.style.transition = 'opacity 0.5s ease';
         for (let i = 0; i < 3; i++) {
             renderer.compute(computeUpdate);
-            postProcessing.render();
+            if (IS_MOBILE) renderer.render(scene, camera);
+            else postProcessing.render();
             await new Promise(r => requestAnimationFrame(r));
         }
         renderer.domElement.style.opacity = '1';
@@ -1432,7 +1436,10 @@
             }
 
             renderer.compute(computeUpdate);
-            postProcessing.render();
+            // En móvil renderizamos directo (sin post-procesado ni MRT) para ahorrar
+            // un render target a pantalla completa, que en alta resolución pesa mucho.
+            if (IS_MOBILE) renderer.render(scene, camera);
+            else postProcessing.render();
         }
 
         renderer.setAnimationLoop(animate);
