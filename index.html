@@ -1,1448 +1,623 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Uriarte Salón — Color de autor, balayage y rituales capilares en Xalapa</title>
-    <meta name="description" content="Salón consciente en Xalapa. Una experiencia inmersiva: balayage, efectos de color, corte de autor, tratamientos y extensiones. Agenda tu cita de valoración." />
-    <meta name="theme-color" content="#0a0604" />
-    <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Uriarte Salón — El arte de transformar · Xalapa</title>
+<meta name="description" content="Salón consciente en Xalapa. Color de autor, balayage, corte y rituales capilares. Una experiencia editorial: belleza con conciencia." />
+<meta name="theme-color" content="#e0281c" />
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --red:#e0281c;
+    --red-bright:#ff3a2c;
+    --red-deep:#a81910;
+    --maroon:#1a0605;
+    --maroon-2:#2a0807;
+    --cream:#f1ece2;
+    --cream-2:#e7e0d3;
+    --ink:#161210;
+    --ink-soft:#403a36;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
 
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
-        html, body {
-            width: 100%;
-            min-height: 100%;
-            background: #0a0604;
-            overflow-x: hidden;
-            font-family: 'Jost', system-ui, sans-serif;
-            color: #f1e9dd;
-        }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
 
-        /* Paleta de textos: blanco brillante, sin amarillos */
-        :root {
-            --color-heading: #ffffff;
-            --color-accent: #ffffff;
-            --color-body: rgba(255, 255, 255, 0.92);
-            --color-label: rgba(255, 255, 255, 0.85);
-        }
+  img{display:block;max-width:100%;}
 
-        /* Texto blanco brillante con glow suave + sombra de contraste, legible
-           tanto sobre el fondo oscuro como sobre el cabello rubio claro */
-        #scroll-container *, .site-footer *, .nav-float a, .nav-float .nav-logo {
-            color: #ffffff;
-            text-shadow:
-                0 1px 3px rgba(0, 0, 0, 0.45),
-                0 2px 16px rgba(0, 0, 0, 0.35),
-                0 0 24px rgba(255, 255, 255, 0.30) !important;
-        }
+  ::selection{background:var(--red);color:var(--cream);}
 
-        /* Títulos: brillo radiante blanco más intenso */
-        .hero h1, .hero h1 em, .manifesto h2, .manifesto h2 em,
-        .cta-section h2, .cta-section h2 em, .quote-section blockquote,
-        .stat-num, .pillar-card h3 {
-            text-shadow:
-                0 0 2px rgba(255, 255, 255, 0.95),
-                0 0 14px rgba(255, 255, 255, 0.75),
-                0 0 34px rgba(255, 255, 255, 0.55),
-                0 0 60px rgba(255, 255, 255, 0.38),
-                0 2px 6px rgba(0, 0, 0, 0.40) !important;
-        }
+  .display{ font-family:'Anton',Impact,sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:-0.01em; line-height:0.86; }
+  .serif{ font-family:'Cormorant Garamond',Georgia,serif; }
+  .label{ font-size:10px; letter-spacing:0.22em; text-transform:uppercase; font-weight:500; }
 
-        canvas {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-        }
+  /* ── progress bar ─────────────────────────── */
+  .progress{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--red); z-index:300; }
 
-        #scroll-container {
-            position: relative;
-            z-index: 1;
-            pointer-events: none;
-            will-change: transform;
-        }
+  /* ── NAV ──────────────────────────────────── */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+    padding:18px clamp(16px,4vw,40px);
+    color:var(--cream);
+    pointer-events:none;
+    transition:color .4s ease;
+  }
+  .nav a, .nav button{ pointer-events:auto; }
+  /* nav oscuro sobre secciones crema */
+  .nav.nav-dark .nav-link,
+  .nav.nav-dark .nav-logo{ color:var(--ink); }
+  .nav.nav-dark .nav-burger span{ background:var(--ink); }
+  .nav-group{ display:flex; gap:26px; }
+  .nav-group.right{ justify-content:flex-end; }
+  .nav-link{ color:#fff; text-decoration:none; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; font-weight:500; opacity:0.92; transition:opacity .3s; }
+  .nav-link:hover{ opacity:0.55; }
+  .nav-logo{ text-align:center; color:#fff; text-decoration:none; line-height:0.9; }
+  .nav-logo b{ font-family:'Anton',sans-serif; font-weight:400; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; display:block; }
+  .nav-logo small{ font-size:8px; letter-spacing:0.42em; text-transform:uppercase; opacity:0.8; }
+  .nav-burger{ display:none; background:none; border:none; cursor:pointer; width:30px; height:20px; position:relative; justify-self:end; }
+  .nav-burger span{ position:absolute; left:0; right:0; height:2px; background:#fff; transition:transform .35s var(--ease), opacity .25s; }
+  .nav-burger span:nth-child(1){ top:2px; }
+  .nav-burger span:nth-child(2){ top:9px; }
+  .nav-burger span:nth-child(3){ top:16px; }
+  body.menu-open .nav-burger span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  body.menu-open .nav-burger span:nth-child(2){ opacity:0; }
+  body.menu-open .nav-burger span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
 
-        .section {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 80px 40px;
-            pointer-events: none;
-        }
+  /* mobile overlay menu */
+  .menu{
+    position:fixed; inset:0; z-index:190; background:var(--red);
+    display:flex; flex-direction:column; justify-content:center; gap:6px;
+    padding:0 28px; transform:translateY(-100%); transition:transform .6s var(--ease);
+  }
+  body.menu-open .menu{ transform:translateY(0); }
+  .menu a{
+    color:var(--cream); text-decoration:none; font-family:'Anton',sans-serif; text-transform:uppercase;
+    font-size:13vw; line-height:1.02; letter-spacing:-0.01em; opacity:0; transform:translateY(40px);
+    transition:opacity .5s, transform .5s;
+  }
+  body.menu-open .menu a{ opacity:1; transform:translateY(0); }
+  body.menu-open .menu a:nth-child(1){ transition-delay:.18s;}
+  body.menu-open .menu a:nth-child(2){ transition-delay:.24s;}
+  body.menu-open .menu a:nth-child(3){ transition-delay:.30s;}
+  body.menu-open .menu a:nth-child(4){ transition-delay:.36s;}
+  body.menu-open .menu a:nth-child(5){ transition-delay:.42s;}
+  .menu .menu-meta{ margin-top:28px; font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.18em; opacity:0.8; color:var(--cream); }
 
-        .section * { pointer-events: auto; }
+  /* ── duotone helper ───────────────────────── */
+  .duotone{ position:relative; background:var(--red); overflow:hidden; }
+  .duotone>img{ width:100%; height:100%; object-fit:cover; mix-blend-mode:luminosity; filter:grayscale(1) contrast(1.08) brightness(1.04); }
+  .duotone::after{ content:''; position:absolute; inset:0; background:radial-gradient(120% 90% at 60% 40%, transparent 30%, rgba(20,4,3,.66) 100%); pointer-events:none; }
 
-        .hero {
-            min-height: 110vh;
-            flex-direction: column;
-            gap: 22px;
-            text-align: center;
-            justify-content: flex-start;
-            padding-top: 7vh;
-        }
+  /* ── HERO ─────────────────────────────────── */
+  .hero{ position:relative; height:100svh; min-height:560px; background:var(--maroon); overflow:hidden; }
+  .hero-media{ position:absolute; inset:-6% 0 0 0; height:112%; will-change:transform; }
+  .hero-media.duotone>img{ height:100%; }
+  .hero-vignette{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,4,3,.5) 0%, transparent 26%, transparent 50%, rgba(20,4,3,.82) 100%); z-index:2; pointer-events:none; }
+  .hero-inner{ position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; justify-content:space-between; padding:84px clamp(16px,4vw,40px) clamp(20px,4vw,40px); }
+  .hero-kickers{ display:flex; justify-content:space-between; color:var(--cream); opacity:0; }
+  .hero-kickers .label{ opacity:0.85; }
+  .hero-title{ color:var(--cream); }
+  .hero-title .l1{ font-size:clamp(13px,3.4vw,22px); letter-spacing:0.3em; font-family:'Inter',sans-serif; font-weight:500; text-transform:uppercase; margin-bottom:clamp(8px,1.4vw,14px); display:block; overflow:hidden; }
+  .hero-title .l2{ font-size:clamp(58px,18vw,220px); color:var(--cream); display:block; }
+  .hero-title .l2 .word{ display:inline-block; overflow:hidden; }
+  .hero-title .l2 .char{ display:inline-block; }
+  .hero-scroll{ position:absolute; bottom:18px; left:50%; transform:translateX(-50%); color:var(--cream); display:flex; flex-direction:column; align-items:center; gap:7px; z-index:4; opacity:0;}
+  .hero-scroll .label{ opacity:0.7; }
+  .hero-scroll .ln{ width:1px; height:34px; background:var(--cream); opacity:.5; animation:scrolly 1.8s ease-in-out infinite; transform-origin:top; }
+  @keyframes scrolly{ 0%,100%{transform:scaleY(.4);opacity:.25;} 50%{transform:scaleY(1);opacity:.7;} }
 
-        .hero-tag {
-            font-size: 11px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(30px);
-            color: var(--color-label, rgba(230, 200, 150, 0.85));
-            font-weight: 500;
-            text-shadow: 0 1px 16px rgba(0,0,0,0.6);
-        }
+  /* ── MANIFESTO (pinned reveal) ────────────── */
+  .manifesto{ background:var(--cream); }
+  .mani-inner{ position:relative; min-height:100svh; display:flex; align-items:center; justify-content:center; padding:120px clamp(20px,5vw,80px); gap:clamp(20px,5vw,60px); }
+  .mani-word{ flex:1; max-width:380px; }
+  .mani-word .kicker{ display:flex; justify-content:space-between; color:var(--red); margin-bottom:14px; }
+  .mani-word h2{ font-size:clamp(54px,10vw,120px); color:var(--red); line-height:0.92; font-weight:500; margin-bottom:16px; }
+  .mani-word p{ font-size:12.5px; line-height:1.7; letter-spacing:0.04em; color:var(--ink-soft); text-transform:uppercase; max-width:34ch; }
+  .mani-word.right{ text-align:right; }
+  .mani-word.right .kicker{ }
+  .mani-word.right p{ margin-left:auto; }
+  .mani-bar{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:6px; height:0; background:var(--red); overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mani-bar img{ position:absolute; width:max(86vw,520px); height:100%; left:50%; top:0; transform:translateX(-50%); object-fit:cover; opacity:0; }
 
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(54px, 9vw, 128px);
-            font-weight: 500;
-            line-height: 0.98;
-            letter-spacing: -1px;
-            opacity: 0;
-            transform: translateY(40px);
-            color: var(--color-heading, #fbf3e8);
-            text-shadow: 0 2px 30px rgba(0,0,0,0.7), 0 0 80px rgba(0,0,0,0.4);
-        }
+  /* ── PILLARS ──────────────────────────────── */
+  .pillars{ position:relative; background:var(--maroon); color:var(--cream); overflow:hidden; padding:clamp(80px,12vw,180px) 0; }
+  .pillars-ghost{ position:absolute; top:7%; left:0; white-space:nowrap; font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(80px,15vw,220px); line-height:1; color:transparent; -webkit-text-stroke:1px rgba(241,236,226,.14); will-change:transform; pointer-events:none; }
+  .pillars-head{ padding:0 clamp(16px,4vw,40px) clamp(20px,4vw,40px); display:flex; justify-content:space-between; align-items:flex-end; }
+  .pillars-head .label{ color:var(--red-bright); }
+  .pillars-grid{ position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(20px,3vw,44px); padding:0 clamp(16px,4vw,40px); }
+  .pillar h3{ font-size:clamp(40px,6vw,84px); color:var(--red); margin-bottom:18px; line-height:0.9; overflow:hidden; }
+  .pillar p{ font-size:12px; line-height:1.72; color:rgba(241,236,226,.66); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:18px; }
+  .pillar .num{ font-size:11px; letter-spacing:0.2em; color:rgba(241,236,226,.4); }
 
-        .hero h1 em {
-            display: block;
-            font-style: italic;
-            font-weight: 400;
-            font-size: 0.5em;
-            letter-spacing: 4px;
-            color: var(--color-accent, rgba(76, 84, 95, 0.95));
-            text-shadow: 0 0 30px rgba(76, 84, 95, 0.25), 0 0 60px rgba(76, 84, 95, 0.1);
-        }
+  /* ── SERVICES ─────────────────────────────── */
+  .services{ background:var(--cream); padding:clamp(70px,10vw,150px) clamp(16px,4vw,40px); }
+  .sec-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:clamp(36px,5vw,70px); border-bottom:1px solid rgba(22,18,16,.16); padding-bottom:20px; }
+  .sec-head h2{ font-size:clamp(40px,8vw,110px); color:var(--ink); line-height:0.9; }
+  .sec-head .label{ color:var(--red); }
+  .svc-row{
+    display:grid; grid-template-columns:54px 1fr auto; gap:clamp(12px,3vw,40px); align-items:center;
+    padding:clamp(20px,3vw,34px) 0; border-bottom:1px solid rgba(22,18,16,.14); position:relative; cursor:pointer;
+  }
+  .svc-row .svc-num{ font-size:12px; letter-spacing:0.12em; color:var(--red); }
+  .svc-main{ display:flex; flex-direction:column; gap:8px; }
+  .svc-main h3{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(28px,5vw,56px); line-height:0.98; color:var(--ink); transition:color .35s, transform .45s var(--ease); }
+  .svc-main p{ font-size:12px; line-height:1.6; color:var(--ink-soft); max-width:48ch; }
+  .svc-price{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(18px,2.4vw,26px); color:var(--ink); white-space:nowrap; }
+  .svc-price small{ display:block; font-family:'Inter',sans-serif; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--red); margin-bottom:2px; }
+  .svc-thumb{
+    position:fixed; top:0; left:0; width:230px; height:300px; pointer-events:none; z-index:120;
+    opacity:0; transform:translate(-50%,-50%) scale(.85); overflow:hidden; border-radius:2px;
+    will-change:transform,opacity; transition:opacity .3s;
+  }
+  .svc-thumb img{ width:100%; height:100%; object-fit:cover; }
+  @media(hover:hover){ .svc-row:hover .svc-main h3{ color:var(--red); transform:translateX(14px); } }
 
-        .hero-sub {
-            font-size: clamp(14px, 1.5vw, 18px);
-            line-height: 1.8;
-            max-width: 540px;
-            opacity: 0;
-            transform: translateY(30px);
-            color: var(--color-body, rgba(235, 220, 200, 0.72));
-            font-weight: 300;
-        }
+  /* ── GALLERY ──────────────────────────────── */
+  .gallery{ background:var(--maroon); padding:clamp(60px,9vw,130px) 0; overflow:hidden; }
+  .gallery .sec-head{ padding:0 clamp(16px,4vw,40px); border-color:rgba(241,236,226,.2); }
+  .gallery .sec-head h2{ color:var(--cream); }
+  .gx{ display:grid; grid-template-columns:repeat(12,1fr); gap:clamp(10px,2vw,22px); padding:clamp(20px,4vw,50px) clamp(16px,4vw,40px) 0; }
+  .gx-fig{ position:relative; overflow:hidden; background:var(--maroon-2); }
+  .gx-fig img{ width:100%; height:100%; object-fit:cover; will-change:transform; }
+  .gx-fig figcaption{ position:absolute; left:14px; bottom:12px; color:var(--cream); z-index:2; }
+  .gx-fig figcaption .label{ color:var(--cream); opacity:.85; }
+  .gx-a{ grid-column:1/8; aspect-ratio:16/11; }
+  .gx-b{ grid-column:8/13; aspect-ratio:3/4; align-self:end; }
+  .gx-c{ grid-column:1/5; aspect-ratio:3/4; }
+  .gx-d{ grid-column:5/13; aspect-ratio:16/9; }
 
-        .wind-btn, .cta-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 34px;
-            border: 1px solid rgba(76, 84, 95, 0.35);
-            border-radius: 40px;
-            background: rgba(35, 22, 12, 0.4);
-            backdrop-filter: blur(12px);
-            color: var(--color-accent, rgba(235, 205, 145, 0.95));
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.4s;
-            opacity: 0;
-            transform: translateY(20px);
-        }
+  /* ── STATS / QUOTE ────────────────────────── */
+  .quote{ background:var(--cream); padding:clamp(80px,14vw,200px) clamp(20px,6vw,80px); text-align:center; }
+  .quote blockquote{ font-family:'Cormorant Garamond',serif; font-weight:500; font-style:italic; font-size:clamp(28px,5.2vw,72px); line-height:1.18; color:var(--ink); max-width:18ch; margin:0 auto; }
+  .quote blockquote em{ color:var(--red); font-style:italic; }
+  .quote .q-attr{ margin-top:30px; color:var(--red); }
+  .stats{ background:var(--cream); padding:0 clamp(16px,4vw,40px) clamp(70px,10vw,140px); }
+  .stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,3vw,40px); border-top:1px solid rgba(22,18,16,.16); padding-top:clamp(30px,4vw,50px); }
+  .stat .n{ font-family:'Anton',sans-serif; font-size:clamp(40px,6vw,82px); color:var(--red); line-height:0.9; }
+  .stat .u{ font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft); margin-top:10px; }
 
-        .cta-btn:hover, .wind-btn:hover {
-            background: rgba(70, 48, 26, 0.55);
-            border-color: rgba(76, 84, 95, 0.6);
-            transform: translateY(-2px) !important;
-        }
+  /* ── CTA ──────────────────────────────────── */
+  .cta{ position:relative; background:var(--red); color:var(--cream); padding:clamp(80px,14vw,200px) clamp(20px,5vw,60px); text-align:center; overflow:hidden; }
+  .cta h2{ font-family:'Anton',sans-serif; text-transform:uppercase; font-size:clamp(48px,12vw,160px); line-height:0.86; letter-spacing:-0.01em; }
+  .cta h2 .ital{ font-family:'Cormorant Garamond',serif; font-style:italic; text-transform:none; font-weight:500; letter-spacing:0; }
+  .cta p{ max-width:42ch; margin:clamp(24px,3vw,40px) auto; font-size:13.5px; line-height:1.7; opacity:0.92; }
+  .btn{
+    display:inline-flex; align-items:center; gap:12px; background:var(--cream); color:var(--ink);
+    text-decoration:none; padding:18px 36px; border-radius:40px; font-size:12px; letter-spacing:0.14em;
+    text-transform:uppercase; font-weight:600; transition:transform .4s var(--ease), background .3s, color .3s;
+  }
+  .btn:hover{ transform:translateY(-3px); background:var(--ink); color:var(--cream); }
 
-        .scroll-hint {
-            position: relative;
-            margin-top: auto;
-            margin-bottom: 12vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            opacity: 0;
-        }
+  /* ── FOOTER ───────────────────────────────── */
+  .footer{ background:var(--maroon); color:var(--cream); padding:clamp(50px,7vw,90px) clamp(16px,4vw,40px) 36px; }
+  .footer-top{ display:grid; grid-template-columns:1.6fr 1fr 1fr; gap:clamp(28px,4vw,50px); border-bottom:1px solid rgba(241,236,226,.16); padding-bottom:40px; }
+  .footer-brand b{ font-family:'Anton',sans-serif; font-size:26px; text-transform:uppercase; letter-spacing:0.03em; display:block; }
+  .footer-brand small{ font-size:9px; letter-spacing:0.4em; text-transform:uppercase; opacity:.7; }
+  .footer-brand p{ margin-top:16px; font-size:12px; line-height:1.7; color:rgba(241,236,226,.55); max-width:34ch; }
+  .footer-col .ct{ font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--red-bright); margin-bottom:14px; }
+  .footer-col a, .footer-col p{ display:block; font-size:12.5px; line-height:1.7; color:rgba(241,236,226,.66); text-decoration:none; margin-bottom:6px; }
+  .footer-col a:hover{ color:var(--cream); }
+  .footer-bottom{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-top:26px; font-size:10.5px; letter-spacing:0.1em; color:rgba(241,236,226,.4); text-transform:uppercase; }
 
-        html { scroll-snap-type: y proximity; }
-        .section { scroll-snap-align: start; }
+  /* ── FAB whatsapp ─────────────────────────── */
+  .fab{ position:fixed; right:18px; bottom:18px; z-index:150; width:54px; height:54px; border-radius:50%; background:#25d366; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 26px rgba(0,0,0,.3); transition:transform .3s; }
+  .fab:hover{ transform:scale(1.08); }
+  .fab svg{ width:28px; height:28px; }
 
-        .scroll-hint span {
-            font-size: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-label, rgba(235, 205, 150, 0.9));
-            text-shadow: 0 1px 12px rgba(0,0,0,0.7);
-        }
+  /* reveal line helper */
+  .lines-mask{ overflow:hidden; }
 
-        .scroll-line {
-            width: 1px;
-            height: 42px;
-            background: linear-gradient(to bottom, rgba(76, 84, 95, 0.6), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
+  /* ── RESPONSIVE ───────────────────────────── */
+  @media(max-width:860px){
+    .nav{ grid-template-columns:auto 1fr auto; }
+    .nav-group{ display:none; }
+    .nav-logo{ justify-self:start; text-align:left; }
+    .nav-burger{ display:block; }
+    .mani-inner{ flex-direction:column; gap:0; justify-content:center; }
+    .mani-word{ max-width:none; width:100%; text-align:center !important; }
+    .mani-word .kicker{ justify-content:center; gap:14px; }
+    .mani-word.right p, .mani-word p{ margin:0 auto; }
+    .mani-word.left{ margin-bottom:46vh; }
+    .mani-word.right{ margin-top:46vh; }
+    .mani-bar img{ width:100%; }
+    .pillars-grid{ grid-template-columns:1fr 1fr; gap:30px 24px; }
+    .gx-a{ grid-column:1/13; aspect-ratio:4/3; }
+    .gx-b{ grid-column:1/7; aspect-ratio:3/4; }
+    .gx-c{ grid-column:7/13; aspect-ratio:3/4; }
+    .gx-d{ grid-column:1/13; aspect-ratio:16/10; }
+    .stats-grid{ grid-template-columns:1fr 1fr; gap:30px 20px; }
+    .footer-top{ grid-template-columns:1fr 1fr; }
+    .svc-row{ grid-template-columns:38px 1fr; }
+    .svc-price{ grid-column:2; text-align:left; }
+    .svc-thumb{ display:none; }
+  }
+  @media(max-width:480px){
+    .pillars-grid{ grid-template-columns:1fr; }
+    .footer-top{ grid-template-columns:1fr; }
+    .stats-grid{ grid-template-columns:1fr 1fr; }
+  }
 
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-            50% { opacity: 1; transform: scaleY(1); }
-        }
-
-        .manifesto { flex-direction: column; gap: 40px; text-align: center; }
-
-        .manifesto-label, .pillars-header span, .stats-label {
-            font-size: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--color-label, rgba(225, 190, 140, 0.6));
-            opacity: 0;
-            transform: translateY(20px);
-            text-shadow: 0 1px 12px rgba(0,0,0,0.5);
-        }
-
-        .manifesto h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(30px, 4.5vw, 60px);
-            font-weight: 400;
-            line-height: 1.25;
-            max-width: 880px;
-            opacity: 0;
-            transform: translateY(40px);
-            color: var(--color-heading, rgba(248, 240, 230, 0.97));
-            text-shadow: 0 2px 30px rgba(0,0,0,0.7);
-        }
-
-        .manifesto h2 em {
-            font-style: italic;
-            color: var(--color-accent, rgba(235, 205, 145, 0.97));
-            text-shadow: 0 0 25px rgba(76, 84, 95, 0.22);
-        }
-
-        .pillars { flex-direction: column; gap: 56px; }
-        .pillars-header { text-align: center; }
-
-        .pillar-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 26px;
-            max-width: 1000px;
-            width: 100%;
-        }
-
-        @media (max-width: 768px) {
-            .pillar-grid { grid-template-columns: 1fr; max-width: 420px; }
-        }
-
-        .pillar-card {
-            border: 1px solid rgba(200, 160, 110, 0.14);
-            border-radius: 18px;
-            padding: 38px 30px;
-            background: rgba(22, 14, 8, 0.55);
-            backdrop-filter: blur(16px);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: border-color 0.4s, background 0.4s, transform 0.4s;
-            box-shadow: 0 8px 44px rgba(0,0,0,0.45);
-        }
-
-        .pillar-card:hover {
-            border-color: rgba(76, 84, 95, 0.35);
-            background: rgba(40, 26, 14, 0.5);
-        }
-
-        .pillar-num {
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: var(--color-accent, rgba(76, 84, 95, 0.7));
-            margin-bottom: 18px;
-            font-weight: 500;
-        }
-
-        .pillar-card h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 27px;
-            font-weight: 500;
-            margin-bottom: 12px;
-            color: var(--color-heading, #fbf3e8);
-        }
-
-        .pillar-card p {
-            font-size: 13.5px;
-            line-height: 1.75;
-            color: var(--color-body, rgba(235, 220, 200, 0.62));
-            font-weight: 300;
-            margin-bottom: 18px;
-        }
-
-        .pillar-price {
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--color-label, rgba(225, 190, 140, 0.55));
-        }
-        .pillar-price strong {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--color-accent, rgba(235, 205, 145, 0.95));
-            margin-left: 6px;
-        }
-
-        .stats-section { flex-direction: column; gap: 50px; text-align: center; }
-
-        .stats-grid { display: flex; gap: 64px; flex-wrap: wrap; justify-content: center; }
-
-        .stat-item { opacity: 0; transform: translateY(30px); text-align: center; }
-
-        .stat-num {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(44px, 5.5vw, 70px);
-            font-weight: 500;
-            color: var(--color-accent, rgba(235, 205, 145, 1));
-            line-height: 1;
-            text-shadow: 0 2px 24px rgba(0,0,0,0.6), 0 0 40px rgba(76, 84, 95, 0.15);
-        }
-
-        .stat-unit {
-            font-size: 13px;
-            letter-spacing: 1px;
-            color: var(--color-body, rgba(235, 220, 200, 0.55));
-            margin-top: 10px;
-            font-weight: 300;
-        }
-
-        .quote-section { flex-direction: column; gap: 22px; text-align: center; min-height: 85vh; }
-
-        .quote-section blockquote {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(26px, 4vw, 50px);
-            font-weight: 400;
-            font-style: italic;
-            line-height: 1.35;
-            max-width: 800px;
-            color: var(--color-heading, rgba(250, 244, 234, 0.96));
-            opacity: 0;
-            transform: translateY(40px);
-            text-shadow: 0 2px 30px rgba(0,0,0,0.7);
-        }
-        .quote-section blockquote em { color: var(--color-accent, rgba(235, 205, 145, 0.97)); font-style: italic; }
-
-        .quote-attr {
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--color-label, rgba(225, 190, 140, 0.5));
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .cta-section {
-            flex-direction: column;
-            gap: 30px;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 0 40px;
-        }
-
-        .cta-section h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(38px, 6vw, 76px);
-            font-weight: 500;
-            line-height: 1.08;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .cta-section h2 em {
-            font-style: italic;
-            color: var(--color-accent, rgba(235, 205, 145, 1));
-            text-shadow: 0 0 30px rgba(76, 84, 95, 0.3);
-        }
-
-        .cta-sub {
-            font-size: 15px;
-            color: var(--color-body, rgba(235, 220, 200, 0.62));
-            max-width: 460px;
-            line-height: 1.8;
-            font-weight: 300;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .footer { min-height: 0; padding: 0; display: none; }
-
-        .site-footer {
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid rgba(200, 160, 110, 0.1);
-            background: #0a0604;
-            padding: 64px 40px 40px;
-        }
-
-        .site-footer-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1.6fr 1fr 1fr;
-            gap: 44px;
-        }
-
-        @media (max-width: 768px) { .site-footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; } }
-        @media (max-width: 480px) { .site-footer-inner { grid-template-columns: 1fr; } }
-
-        .sf-brand { display: flex; flex-direction: column; gap: 14px; }
-        .sf-brand-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            color: var(--color-heading, rgba(248, 240, 228, 0.85));
-            letter-spacing: 1px;
-        }
-        .sf-brand-name small { font-size: 0.5em; letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; }
-        .sf-brand-desc {
-            font-size: 12.5px;
-            line-height: 1.75;
-            color: var(--color-body, rgba(235, 220, 200, 0.42));
-            font-weight: 300;
-            max-width: 280px;
-        }
-
-        .sf-col-title {
-            font-size: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-label, rgba(225, 190, 140, 0.5));
-            margin-bottom: 16px;
-            font-weight: 500;
-        }
-        .sf-col a, .sf-col p {
-            display: block;
-            font-size: 12.5px;
-            color: var(--color-body, rgba(235, 220, 200, 0.52));
-            text-decoration: none;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-        .sf-col a:hover { color: var(--color-accent, rgba(235, 205, 145, 0.95)); }
-
-        .sf-bottom {
-            max-width: 1100px;
-            margin: 44px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid rgba(200, 160, 110, 0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .sf-copy { font-size: 11px; color: var(--color-body, rgba(235, 220, 200, 0.28)); letter-spacing: 0.5px; }
-        .sf-socials { display: flex; gap: 18px; }
-        .sf-socials a {
-            font-size: 11px;
-            color: var(--color-body, rgba(235, 220, 200, 0.38));
-            text-decoration: none;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-        .sf-socials a:hover { color: var(--color-accent, rgba(235, 205, 145, 0.95)); }
-
-        /* Nav */
-        .nav-float {
-            position: fixed;
-            top: 24px; left: 0; right: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            z-index: 100;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.6s;
-        }
-        .nav-float.visible { opacity: 1; }
-        .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            color: var(--color-heading, rgba(248, 240, 228, 0.85));
-            letter-spacing: 1px;
-            pointer-events: auto;
-        }
-        .nav-logo small { font-size: 0.5em; letter-spacing: 3px; text-transform: uppercase; opacity: 0.7; }
-        .nav-links { display: flex; gap: 28px; pointer-events: auto; }
-        .nav-links a {
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--color-body, rgba(235, 220, 200, 0.58));
-            text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
-        }
-        .nav-links a:hover { color: var(--color-accent, rgba(235, 205, 145, 0.95)); }
-        .nav-cta {
-            pointer-events: auto;
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 9px 20px;
-            border: 1px solid rgba(76, 84, 95, 0.35);
-            border-radius: 30px;
-            color: var(--color-accent, rgba(235, 205, 145, 0.95));
-            text-decoration: none;
-            background: rgba(35, 22, 12, 0.4);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        .nav-cta:hover { background: rgba(70, 48, 26, 0.6); }
-
-        .nav-hamburger {
-            display: none;
-            pointer-events: auto;
-            width: 38px; height: 38px;
-            background: rgba(35, 22, 12, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(200, 160, 110, 0.18);
-            border-radius: 8px;
-            cursor: pointer;
-            position: relative;
-            flex-shrink: 0;
-        }
-        .nav-hamburger span {
-            position: absolute; left: 50%;
-            transform: translateX(-50%);
-            width: 17px; height: 1.5px;
-            background: var(--color-body, rgba(235, 220, 200, 0.75));
-            border-radius: 1px;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-        .nav-hamburger span:nth-child(1) { top: 12px; }
-        .nav-hamburger span:nth-child(2) { top: 18px; }
-        .nav-hamburger span:nth-child(3) { top: 24px; }
-        .nav-hamburger.open span:nth-child(1) { transform: translateX(-50%) translateY(6px) rotate(45deg); }
-        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-        .nav-hamburger.open span:nth-child(3) { transform: translateX(-50%) translateY(-6px) rotate(-45deg); }
-
-        .nav-mobile-overlay {
-            position: fixed;
-            top: 0; right: 0;
-            width: 100%; height: 100vh;
-            background: rgba(10, 6, 4, 0.92);
-            backdrop-filter: blur(24px);
-            z-index: 99;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.35s ease, visibility 0.35s;
-            pointer-events: none;
-        }
-        .nav-mobile-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
-        .nav-mobile-overlay a {
-            font-size: 15px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--color-body, rgba(235, 220, 200, 0.7));
-            text-decoration: none;
-            font-weight: 500;
-            transform: translateY(10px);
-            opacity: 0;
-            transition: color 0.3s, transform 0.3s, opacity 0.3s;
-        }
-        .nav-mobile-overlay.open a { opacity: 1; transform: translateY(0); }
-        .nav-mobile-overlay.open a:nth-child(1) { transition-delay: 0.06s; }
-        .nav-mobile-overlay.open a:nth-child(2) { transition-delay: 0.12s; }
-        .nav-mobile-overlay.open a:nth-child(3) { transition-delay: 0.18s; }
-        .nav-mobile-overlay.open a:nth-child(4) { transition-delay: 0.24s; }
-        .nav-mobile-overlay.open a:nth-child(5) { transition-delay: 0.30s; }
-        .nav-mobile-overlay a:hover { color: var(--color-accent, rgba(235, 205, 145, 0.95)); }
-
-        @media (max-width: 768px) {
-            .nav-links, .nav-cta { display: none; }
-            .nav-hamburger { display: block; }
-            .nav-float { padding: 0 24px; }
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 2px;
-            background: rgba(76, 84, 95, 0.7);
-            z-index: 200;
-            width: 0;
-            transition: width 0.1s linear;
-        }
-
-        /* Floating WhatsApp */
-        .fab-wa {
-            position: fixed;
-            bottom: 22px; right: 22px;
-            z-index: 200;
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            background: #25d366;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
-            pointer-events: auto;
-            transition: transform 0.3s;
-        }
-        .fab-wa:hover { transform: scale(1.08); }
-        .fab-wa svg { width: 30px; height: 30px; }
-
-        .revealed {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .delay-1 { transition-delay: 0.1s !important; }
-        .delay-2 { transition-delay: 0.25s !important; }
-        .delay-3 { transition-delay: 0.4s !important; }
-        .delay-4 { transition-delay: 0.55s !important; }
-
-        /* WebGPU fallback notice */
-        #fallback {
-            position: fixed; inset: 0; z-index: 50;
-            display: none;
-            background: radial-gradient(ellipse at center, #1a1108 0%, #0a0604 70%);
-        }
-    </style>
-
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.183.0/build/three.webgpu.js",
-                "three/webgpu": "https://unpkg.com/three@0.183.0/build/three.webgpu.js",
-                "three/tsl": "https://unpkg.com/three@0.183.0/build/three.tsl.js",
-                "three/addons/": "https://unpkg.com/three@0.183.0/examples/jsm/"
-            }
-        }
-    </script>
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; }
+  }
+</style>
 </head>
-
 <body>
-    <div id="fallback"></div>
-    <div class="progress-bar" id="progressBar"></div>
+  <div class="progress" id="progress"></div>
 
-    <nav class="nav-float" id="navFloat">
-        <div class="nav-logo">Uriarte <small>Salón</small></div>
-        <div class="nav-links">
-            <a href="javascript:void(0)" data-nav="1">Filosofía</a>
-            <a href="javascript:void(0)" data-nav="2">Servicios</a>
-            <a href="javascript:void(0)" data-nav="3">Estudio</a>
-            <a href="javascript:void(0)" data-nav="5">Visítanos</a>
-        </div>
-        <a class="nav-cta" href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita%20de%20valoraci%C3%B3n." target="_blank" rel="noopener">Reservar</a>
-        <button class="nav-hamburger" id="navHamburger" aria-label="Menú">
-            <span></span><span></span><span></span>
-        </button>
+  <header class="nav" id="nav">
+    <nav class="nav-group left">
+      <a class="nav-link" href="#manifesto">Filosofía</a>
+      <a class="nav-link" href="#services">Servicios</a>
     </nav>
+    <a class="nav-logo" href="#top"><b>Uriarte</b><small>Salón · Xalapa</small></a>
+    <nav class="nav-group right">
+      <a class="nav-link" href="#gallery">Galería</a>
+      <a class="nav-link" href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20quiero%20agendar%20mi%20cita%20de%20valoraci%C3%B3n." target="_blank" rel="noopener">Reservar</a>
+    </nav>
+    <button class="nav-burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
+  </header>
 
-    <div class="nav-mobile-overlay" id="navMobileOverlay">
-        <a href="javascript:void(0)" data-nav-mobile="1">Filosofía</a>
-        <a href="javascript:void(0)" data-nav-mobile="2">Servicios</a>
-        <a href="javascript:void(0)" data-nav-mobile="3">Estudio</a>
-        <a href="javascript:void(0)" data-nav-mobile="5">Visítanos</a>
-        <a href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita." target="_blank" rel="noopener">Reservar por WhatsApp</a>
-    </div>
+  <div class="menu" id="menu">
+    <a href="#manifesto">Filosofía</a>
+    <a href="#services">Servicios</a>
+    <a href="#gallery">Galería</a>
+    <a href="#contact">Visítanos</a>
+    <a href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20quiero%20agendar%20mi%20cita%20de%20valoraci%C3%B3n." target="_blank" rel="noopener">Reservar cita</a>
+    <div class="menu-meta">228 121 5183 · @uriartesalon</div>
+  </div>
 
-    <div id="scroll-container">
-        <section class="section hero" id="heroSection" data-stage="0">
-            <span class="hero-tag" data-reveal data-delay="1">Xalapa · Salón consciente</span>
-            <h1 data-reveal data-delay="2">Uriarte<em>Salón</em></h1>
-            <p class="hero-sub" data-reveal data-delay="3">Sinergia de belleza y sustentabilidad. Color de autor, balayage y rituales capilares para quienes no negocian la excelencia.</p>
-            <div class="scroll-hint" data-reveal data-delay="4">
-                <span>Desliza para iniciar el tour</span>
-                <div class="scroll-line"></div>
-            </div>
-        </section>
+  <div id="smooth-wrapper">
+    <div id="smooth-content">
 
-        <section class="section manifesto" data-stage="1">
-            <span class="manifesto-label" data-reveal>Nuestra filosofía</span>
-            <h2 data-reveal data-delay="1">Creemos en el lujo bien entendido: el que cuida cada detalle de tu experiencia y también del entorno. Belleza con <em>conciencia</em>, sin juicios — ven como tú eres.</h2>
-        </section>
-
-        <section class="section pillars" data-stage="2">
-            <div class="pillars-header" data-reveal>
-                <span>El arte de transformar</span>
-            </div>
-            <div class="pillar-grid">
-                <div class="pillar-card" data-reveal data-delay="1">
-                    <div class="pillar-num">01</div>
-                    <h3>Balayage</h3>
-                    <p>Iluminaciones a mano alzada con transiciones impecables y un efecto natural, sofisticado y duradero.</p>
-                    <div class="pillar-price">Desde <strong>$2,800</strong></div>
-                </div>
-                <div class="pillar-card" data-reveal data-delay="2">
-                    <div class="pillar-num">02</div>
-                    <h3>Efectos de color</h3>
-                    <p>Desde rubios glaciales hasta fantasías. Color vibrante diseñado para destacar entre la multitud.</p>
-                    <div class="pillar-price">Desde <strong>$3,500</strong></div>
-                </div>
-                <div class="pillar-card" data-reveal data-delay="3">
-                    <div class="pillar-num">03</div>
-                    <h3>Corte de autor</h3>
-                    <p>Cortes que entienden tu rostro, tu estilo de vida y tu textura. Movimiento y forma a tu favor.</p>
-                    <div class="pillar-price">Desde <strong>$850</strong></div>
-                </div>
-                <div class="pillar-card" data-reveal data-delay="1">
-                    <div class="pillar-num">04</div>
-                    <h3>Tratamientos capilares</h3>
-                    <p>Rituales de restauración y nutrición profunda para devolver fuerza, brillo y suavidad a tu cabello.</p>
-                    <div class="pillar-price">Desde <strong>$1,200</strong></div>
-                </div>
-                <div class="pillar-card" data-reveal data-delay="2">
-                    <div class="pillar-num">05</div>
-                    <h3>Extensiones</h3>
-                    <p>Largo y volumen de aspecto natural con métodos premium, colocados con precisión milimétrica.</p>
-                    <div class="pillar-price">Desde <strong>$6,500</strong></div>
-                </div>
-                <div class="pillar-card" data-reveal data-delay="3">
-                    <div class="pillar-num">06</div>
-                    <h3>Cita de valoración</h3>
-                    <p>El punto de partida de toda transformación. Un diagnóstico personal antes de cualquier servicio · bonificable.</p>
-                    <div class="pillar-price">Desde <strong>$300</strong></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section stats-section" data-stage="3">
-            <span class="stats-label" data-reveal>La experiencia Uriarte</span>
-            <div class="stats-grid">
-                <div class="stat-item" data-reveal data-delay="1">
-                    <div class="stat-num">+10</div>
-                    <div class="stat-unit">Años de experiencia</div>
-                </div>
-                <div class="stat-item" data-reveal data-delay="2">
-                    <div class="stat-num">10.6k</div>
-                    <div class="stat-unit">En comunidad</div>
-                </div>
-                <div class="stat-item" data-reveal data-delay="3">
-                    <div class="stat-num">100%</div>
-                    <div class="stat-unit">Productos premium</div>
-                </div>
-                <div class="stat-item" data-reveal data-delay="4">
-                    <div class="stat-num">Xalapa</div>
-                    <div class="stat-unit">Indeco Animas</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section quote-section" data-stage="4">
-            <blockquote data-reveal>Nuestra silla es <em>mucho más</em> que hacer cabello: es un lugar donde hablamos de la vida, tus logros y tus momentos.</blockquote>
-            <span class="quote-attr" data-reveal data-delay="1">— El estudio Uriarte</span>
-        </section>
-
-        <section class="section cta-section" data-stage="5">
-            <h2 data-reveal>Empecemos con tu<br><em>cita de valoración</em></h2>
-            <p class="cta-sub" data-reveal data-delay="1">No necesitas llegar con un plan perfecto. Lo platicamos juntos y diseñamos el look que te hace sentir más tú. Para eso estamos aquí.</p>
-            <a href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20quiero%20agendar%20mi%20cita%20de%20valoraci%C3%B3n." target="_blank" rel="noopener" class="cta-btn" data-reveal data-delay="2">Agendar mi cita →</a>
-        </section>
-
-        <section class="section footer" data-stage="6"></section>
-    </div>
-
-    <footer class="site-footer">
-        <div class="site-footer-inner">
-            <div class="sf-brand">
-                <div class="sf-brand-name">Uriarte <small>Salón</small></div>
-                <p class="sf-brand-desc">Salón consciente en Xalapa. Belleza y sustentabilidad en sinergia: color de autor, balayage y rituales capilares.</p>
-            </div>
-            <div class="sf-col">
-                <div class="sf-col-title">Visítanos</div>
-                <p>Av. Araucarias 967, Indeco Animas<br>91190 Xalapa-Enríquez, Ver.</p>
-                <p>Lun a Sáb · 10:00 – 20:00<br>Domingo · cerrado</p>
-            </div>
-            <div class="sf-col">
-                <div class="sf-col-title">Contacto</div>
-                <a href="tel:+522281215183">228 121 5183</a>
-                <a href="https://wa.me/522281215183" target="_blank" rel="noopener">WhatsApp directo</a>
-                <a href="https://instagram.com/uriartesalon" target="_blank" rel="noopener">@uriartesalon</a>
-            </div>
+      <!-- HERO -->
+      <section class="hero" id="top">
+        <div class="hero-media duotone" data-speed="0.85">
+          <img src="assets/img/gen-portrait-1.jpg" alt="Retrato editorial de belleza" />
         </div>
-        <div class="sf-bottom">
-            <span class="sf-copy">© <span id="year"></span> Uriarte Salón. Todos los derechos reservados.</span>
-            <div class="sf-socials">
-                <a href="https://instagram.com/uriartesalon" target="_blank" rel="noopener">Instagram</a>
-                <a href="https://wa.me/522281215183" target="_blank" rel="noopener">WhatsApp</a>
-            </div>
+        <div class="hero-vignette"></div>
+        <div class="hero-inner">
+          <div class="hero-kickers" data-hero="kickers">
+            <span class="label">Salón consciente</span>
+            <span class="label">Est. Xalapa</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="l1" data-hero="l1">El arte de</span>
+            <span class="l2 display" data-hero="title">Transformar</span>
+          </h1>
         </div>
-    </footer>
+        <div class="hero-scroll" data-hero="scroll">
+          <span class="label">Desliza</span>
+          <span class="ln"></span>
+        </div>
+      </section>
 
-    <a class="fab-wa" href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita." target="_blank" rel="noopener" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02ZM12.05 20.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
-    </a>
+      <!-- MANIFESTO -->
+      <section class="manifesto" id="manifesto">
+        <div class="mani-inner">
+          <div class="mani-word left">
+            <span class="kicker label"><span>Significado</span><span>IV</span></span>
+            <h2 class="serif">Uriarte</h2>
+            <p>Más que un apellido: una firma. Cada cabeza que pasa por nuestra silla lleva nuestro nombre y nuestro cuidado.</p>
+          </div>
+          <div class="mani-bar" id="maniBar">
+            <img src="assets/img/gen-portrait-2.jpg" alt="Cabello editorial" />
+          </div>
+          <div class="mani-word right">
+            <span class="kicker label"><span>Estudio</span><span>VV</span></span>
+            <h2 class="serif">Salón</h2>
+            <p>Un espacio donde la belleza y la conciencia trabajan en sinergia. Ven como tú eres, sin juicios.</p>
+          </div>
+        </div>
+      </section>
 
-    <script type="module">
-        document.getElementById('year').textContent = new Date().getFullYear();
+      <!-- PILLARS -->
+      <section class="pillars" id="pillars">
+        <div class="pillars-ghost" id="ghost">Belleza consciente · Color de autor · Uriarte Salón ·&nbsp;</div>
+        <div class="pillars-head">
+          <span class="label">Aquello en lo que creemos</span>
+          <span class="label">04 valores</span>
+        </div>
+        <div class="pillars-grid">
+          <div class="pillar">
+            <h3 class="display" data-clip>Escucha</h3>
+            <p>Antes de tocar el cabello, entendemos a la persona. El diagnóstico es el verdadero inicio de toda transformación.</p>
+            <span class="num">01</span>
+          </div>
+          <div class="pillar">
+            <h3 class="display" data-clip>Cuidado</h3>
+            <p>Productos premium y técnicas que respetan tu fibra capilar y el entorno. Lujo bien entendido, sin atajos.</p>
+            <span class="num">02</span>
+          </div>
+          <div class="pillar">
+            <h3 class="display" data-clip>Arte</h3>
+            <p>Color de autor y corte a mano alzada. No copiamos tendencias: diseñamos para tu rostro y tu vida.</p>
+            <span class="num">03</span>
+          </div>
+          <div class="pillar">
+            <h3 class="display" data-clip>Evolución</h3>
+            <p>Nos formamos sin parar. Lo que era excelente ayer, mañana es el punto de partida. Siempre hacia lo real.</p>
+            <span class="num">04</span>
+          </div>
+        </div>
+      </section>
 
-        // ─── WebGPU support check ──────────────────────────────────────────
-        if (!navigator.gpu) {
-            document.getElementById('fallback').style.display = 'block';
-        }
+      <!-- SERVICES -->
+      <section class="services" id="services">
+        <div class="sec-head">
+          <h2 class="display" data-split="chars">Servicios</h2>
+          <span class="label">El arte de transformar</span>
+        </div>
 
-        import * as THREE from 'three/webgpu';
-        import {
-            Fn, uniform, float, vec3, instancedArray, instanceIndex, uv,
-            positionGeometry, positionWorld, sin, cos, pow, smoothstep, mix,
-            sqrt, select, hash, time, deltaTime, PI, mx_noise_float,
-            pass, mrt, output, transformedNormalView,
-        } from 'three/tsl';
-        import { dof } from 'three/addons/tsl/display/DepthOfFieldNode.js';
+        <div class="svc-row" data-thumb="assets/img/work-1.jpg">
+          <span class="svc-num">01</span>
+          <div class="svc-main"><h3>Balayage</h3><p>Iluminaciones a mano alzada, transiciones impecables y un efecto natural que dura.</p></div>
+          <div class="svc-price"><small>Desde</small>$2,800</div>
+        </div>
+        <div class="svc-row" data-thumb="assets/img/gen-salon-1.jpg">
+          <span class="svc-num">02</span>
+          <div class="svc-main"><h3>Efectos de color</h3><p>De rubios glaciales a fantasías. Color vibrante diseñado para destacar.</p></div>
+          <div class="svc-price"><small>Desde</small>$3,500</div>
+        </div>
+        <div class="svc-row" data-thumb="assets/img/work-2.jpg">
+          <span class="svc-num">03</span>
+          <div class="svc-main"><h3>Corte de autor</h3><p>Cortes que entienden tu rostro, tu textura y tu estilo de vida. Movimiento a tu favor.</p></div>
+          <div class="svc-price"><small>Desde</small>$850</div>
+        </div>
+        <div class="svc-row" data-thumb="assets/img/work-3.jpg">
+          <span class="svc-num">04</span>
+          <div class="svc-main"><h3>Tratamientos capilares</h3><p>Rituales de restauración y nutrición profunda. Fuerza, brillo y suavidad de vuelta.</p></div>
+          <div class="svc-price"><small>Desde</small>$1,200</div>
+        </div>
+        <div class="svc-row" data-thumb="assets/img/gen-salon-2.jpg">
+          <span class="svc-num">05</span>
+          <div class="svc-main"><h3>Extensiones</h3><p>Largo y volumen de aspecto natural con métodos premium, colocados con precisión.</p></div>
+          <div class="svc-price"><small>Desde</small>$6,500</div>
+        </div>
+        <div class="svc-row" data-thumb="assets/img/gen-portrait-1.jpg">
+          <span class="svc-num">06</span>
+          <div class="svc-main"><h3>Cita de valoración</h3><p>El punto de partida. Un diagnóstico personal antes de cualquier servicio · bonificable.</p></div>
+          <div class="svc-price"><small>Desde</small>$300</div>
+        </div>
+      </section>
 
-        // Detección de móvil para aligerar la carga (GPU móvil + pantalla de alta resolución).
-        const IS_MOBILE = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
-        const BLADE_COUNT = IS_MOBILE ? 48000 : 110000;
-        // Ancho de la malla; se deriva del total para preservar la forma del campo.
-        const GRID_COLS = Math.round(Math.sqrt(BLADE_COUNT / 1.37));
-        const FIELD_SIZE = 30;
-        // En móvil (pantalla vertical) los costados no se ven: comprimimos el campo
-        // a lo ancho para que el cabello solo se genere en la franja central visible.
-        const FIELD_X_SCALE = IS_MOBILE ? 0.6 : 1.0;
-        const BACKGROUND_HEX = '#0a0604';
-        const GROUND_HEX = '#0a0604';
-        // Paleta capilar rojizo cobrizo (copper red)
-        const BLADE_BASE_HEX = '#5a1e0c';
-        const BLADE_TIP_HEX = '#f0915a';
+      <!-- GALLERY -->
+      <section class="gallery" id="gallery">
+        <div class="sec-head">
+          <h2 class="display" data-split="chars">Estudio</h2>
+          <span class="label">Trabajos · Xalapa</span>
+        </div>
+        <div class="gx">
+          <figure class="gx-fig gx-a duotone"><img src="assets/img/work-1.jpg" alt="Balayage" data-speed="1.08"><figcaption><span class="label">Balayage de autor</span></figcaption></figure>
+          <figure class="gx-fig gx-b"><img src="assets/img/gen-portrait-2.jpg" alt="Editorial" data-speed="1.12"><figcaption><span class="label">Textura natural</span></figcaption></figure>
+          <figure class="gx-fig gx-c"><img src="assets/img/work-2.jpg" alt="Ondas" data-speed="1.1"><figcaption><span class="label">Color &amp; movimiento</span></figcaption></figure>
+          <figure class="gx-fig gx-d duotone"><img src="assets/img/gen-hero.jpg" alt="El estudio" data-speed="1.06"><figcaption><span class="label">El estudio · Indeco Animas</span></figcaption></figure>
+        </div>
+      </section>
 
-        function buildSkyTexture() {
-            const w = 2, h = 512;
-            const canvas = document.createElement('canvas');
-            canvas.width = w; canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            const grad = ctx.createLinearGradient(0, 0, 0, h);
-            grad.addColorStop(0.0, '#0a0604');
-            grad.addColorStop(0.55, '#0a0604');
-            grad.addColorStop(1.0, '#160d05');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.mapping = THREE.EquirectangularReflectionMapping;
-            tex.colorSpace = THREE.SRGBColorSpace;
-            tex.needsUpdate = true;
-            return tex;
-        }
+      <!-- QUOTE -->
+      <section class="quote">
+        <blockquote data-split="lines">Nuestra silla es <em>mucho más</em> que hacer cabello: es donde hablamos de la vida, tus logros y tus momentos.</blockquote>
+        <div class="q-attr label" data-fade>— El estudio Uriarte</div>
+      </section>
 
-        const scene = new THREE.Scene();
-        scene.background = buildSkyTexture();
-        scene.fog = new THREE.FogExp2('#0a0604', 0.035);
+      <!-- STATS -->
+      <section class="stats">
+        <div class="stats-grid">
+          <div class="stat"><div class="n" data-count="10" data-suffix="+">0</div><div class="u">Años de experiencia</div></div>
+          <div class="stat"><div class="n" data-count="10.6" data-suffix="k">0</div><div class="u">En comunidad</div></div>
+          <div class="stat"><div class="n" data-count="100" data-suffix="%">0</div><div class="u">Productos premium</div></div>
+          <div class="stat"><div class="n">Xalapa</div><div class="u">Indeco Animas</div></div>
+        </div>
+      </section>
 
-        const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.1, 100);
-        camera.position.set(0, 8, 18);
-        camera.lookAt(0, 0, 0);
+      <!-- CTA -->
+      <section class="cta" id="contact">
+        <h2 class="display">Empecemos con tu<br><span class="ital">cita de valoración</span></h2>
+        <p data-fade>No necesitas llegar con un plan perfecto. Lo platicamos juntos y diseñamos el look que te hace sentir más tú.</p>
+        <a class="btn" data-fade href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20quiero%20agendar%20mi%20cita%20de%20valoraci%C3%B3n." target="_blank" rel="noopener">Agendar por WhatsApp →</a>
+      </section>
 
-        const renderer = new THREE.WebGPURenderer({ antialias: true });
-        const isMobile = IS_MOBILE;
-        // En móvil bajamos el DPR a 1.0: la pantalla es enorme y el overdraw de hebras
-        // transparentes a 1.5x es lo que más traba; el cabello es orgánico y no se nota.
-        const maxDPR = IS_MOBILE ? 1.0 : (window.innerWidth < 1200 ? 1.5 : Math.min(devicePixelRatio, 2));
-        renderer.setPixelRatio(maxDPR);
-        renderer.setSize(innerWidth, innerHeight);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.05;
-        document.body.appendChild(renderer.domElement);
-        await renderer.init();
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <b>Uriarte</b><small>Salón · Xalapa</small>
+            <p>Salón consciente en Xalapa. Belleza y sustentabilidad en sinergia: color de autor, balayage y rituales capilares.</p>
+          </div>
+          <div class="footer-col">
+            <div class="ct">Visítanos</div>
+            <p>Av. Araucarias 967<br>Indeco Animas<br>91190 Xalapa, Ver.</p>
+            <p>Lun–Sáb · 10:00–20:00</p>
+          </div>
+          <div class="footer-col">
+            <div class="ct">Contacto</div>
+            <a href="tel:+522281215183">228 121 5183</a>
+            <a href="https://wa.me/522281215183" target="_blank" rel="noopener">WhatsApp directo</a>
+            <a href="https://instagram.com/uriartesalon" target="_blank" rel="noopener">@uriartesalon</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© <span id="year"></span> Uriarte Salón</span>
+          <span>El arte de transformar</span>
+        </div>
+      </footer>
 
-        // ─── GPU Buffers ────────────────────────────────────────────────────
-        const bladeData = instancedArray(BLADE_COUNT, 'vec4');
-        const bendState = instancedArray(BLADE_COUNT, 'vec4');
-        const bladeBound = instancedArray(BLADE_COUNT, 'float');
+    </div>
+  </div>
 
-        // ─── Uniforms ───────────────────────────────────────────────────────
-        const mouseWorld = uniform(new THREE.Vector3(99999, 0, 99999));
-        const mouseRadius = uniform(6.1);
-        const mouseStrength = uniform(4.0);
-        const outerRadius = uniform(9.4);
-        const outerStrength = uniform(1.45);
-        const camSphereWorld = uniform(new THREE.Vector3(99999, 0, 99999));
-        const camSphereRadius = uniform(15.0);
-        const camSphereStrength = uniform(5.9);
+  <a class="fab" href="https://wa.me/522281215183?text=Hola%20Uriarte%20Sal%C3%B3n%2C%20me%20gustar%C3%ADa%20agendar%20una%20cita." target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path fill="#fff" d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.02ZM12.05 20.15h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.66.31c-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+  </a>
 
-        const grassDensity = uniform(1.0);
-        const windSpeed = uniform(1.1);
-        const windAmplitude = uniform(0.24);
-        const bladeWidth = uniform(2.3);
-        const bladeTipWidth = uniform(0.06);
-        const bladeHeight = uniform(3.4);
-        const bladeHeightVariation = uniform(0.7);
-        const bladeLean = uniform(2.1);
-        const noiseAmplitude = uniform(1.85);
-        const noiseFrequency = uniform(0.3);
-        const noise2Amplitude = uniform(0.2);
-        const noise2Frequency = uniform(15);
-        const bladeColorVariation = uniform(0.93);
-        const groundRadius = uniform(13.8);
-        const groundFalloff = uniform(2.4);
-        const bladeBaseColor = uniform(new THREE.Color(BLADE_BASE_HEX));
-        const bladeTipColor = uniform(new THREE.Color(BLADE_TIP_HEX));
-        const backgroundColor = uniform(new THREE.Color(BACKGROUND_HEX));
-        const groundColor = uniform(new THREE.Color(GROUND_HEX));
-        const fogStart = uniform(6.5);
-        const fogEnd = uniform(12.0);
-        const fogIntensity = uniform(1.0);
-        const fogColor = uniform(new THREE.Color('#0a0604'));
-        // Rojizo cobrizo: reflejo cobre brillante + tono cobre medio + cobre cálido
-        const goldenTipColor = uniform(new THREE.Color('#ff9a5e'));
-        const greenTipColor = uniform(new THREE.Color('#c4501f'));
-        const midColor = uniform(new THREE.Color('#a83d18'));
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-        const focusDistanceU = uniform(31.83);
-        const focalLengthU = uniform(10.0);
-        const bokehScaleU = uniform(12.5);
-        let dofEnabled = true;
+    // ── Menú móvil ──────────────────────────────
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('menu');
+    burger.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => document.body.classList.remove('menu-open')));
 
-        let mouseFocusDist = 10.0;
-        let autoFocusSmoothed = 10.0;
+    function initGSAP(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
+      const isMobile = window.matchMedia('(max-width:860px)').matches;
 
-        const noise2D = Fn(([x, z]) => mx_noise_float(vec3(x, float(0), z)).mul(0.5).add(0.5));
+      // ── ScrollSmoother (suave en escritorio, ligero en táctil) ──
+      const smoother = ScrollSmoother.create({
+        wrapper: '#smooth-wrapper',
+        content: '#smooth-content',
+        smooth: 1.1,
+        smoothTouch: isMobile ? 0.08 : 0,
+        effects: true,
+        normalizeScroll: true,
+      });
 
-        const computeInit = Fn(() => {
-            const blade = bladeData.element(instanceIndex);
-            const col = instanceIndex.mod(GRID_COLS);
-            const row = instanceIndex.div(GRID_COLS);
-            const jx = hash(instanceIndex).sub(0.5);
-            const jz = hash(instanceIndex.add(7919)).sub(0.5);
-            const wx = col.toFloat().add(jx).div(float(GRID_COLS)).sub(0.5).mul(FIELD_SIZE).mul(FIELD_X_SCALE);
-            const wz = row.toFloat().add(jz).div(float(GRID_COLS)).sub(0.5).mul(FIELD_SIZE);
-            blade.x.assign(wx);
-            blade.y.assign(wz);
-            blade.z.assign(hash(instanceIndex.add(1337)).mul(PI.mul(2)));
-            const n1 = noise2D(wx.mul(noiseFrequency), wz.mul(noiseFrequency));
-            const n2 = noise2D(wx.mul(noiseFrequency.mul(noise2Frequency)).add(50), wz.mul(noiseFrequency.mul(noise2Frequency)).add(50));
-            const clump = n1.mul(noiseAmplitude).sub(noise2Amplitude).add(n2.mul(noise2Amplitude).mul(2)).max(0);
-            blade.w.assign(clump);
-            const dist = sqrt(wx.mul(wx).add(wz.mul(wz)));
-            const edgeNoise = noise2D(wx.mul(0.25).add(100), wz.mul(0.25).add(100));
-            const maxR = float(12.0).add(edgeNoise.sub(0.5).mul(6.0));
-            const boundary = float(1).sub(smoothstep(maxR.sub(1.5), maxR, dist));
-            bladeBound.element(instanceIndex).assign(select(boundary.lessThan(0.05), float(0), boundary));
-        })().compute(BLADE_COUNT);
-
-        const computeUpdate = Fn(() => {
-            const blade = bladeData.element(instanceIndex);
-            const bend = bendState.element(instanceIndex);
-            const bx = blade.x;
-            const bz = blade.y;
-
-            const w1 = sin(bx.mul(0.35).add(bz.mul(0.12)).add(time.mul(windSpeed)));
-            const w2 = sin(bx.mul(0.18).add(bz.mul(0.28)).add(time.mul(windSpeed.mul(0.67))).add(1.7));
-            const windX = w1.add(w2).mul(windAmplitude);
-            const windZ = w1.sub(w2).mul(windAmplitude.mul(0.55));
-
-            const lw = deltaTime.mul(4.0).saturate();
-            bend.x.assign(mix(bend.x, windX, lw));
-            bend.y.assign(mix(bend.y, windZ, lw));
-
-            const dx = bx.sub(mouseWorld.x);
-            const dz = bz.sub(mouseWorld.z);
-            const dist = sqrt(dx.mul(dx).add(dz.mul(dz))).add(0.0001);
-            const falloff = float(1).sub(dist.div(mouseRadius).saturate());
-            const influence = falloff.mul(falloff).mul(mouseStrength);
-            const pushX = dx.div(dist).mul(influence);
-            const pushZ = dz.div(dist).mul(influence);
-
-            const odx = bx.sub(mouseWorld.x);
-            const odz = bz.sub(mouseWorld.z);
-            const odist = sqrt(odx.mul(odx).add(odz.mul(odz))).add(0.0001);
-            const ofalloff = float(1).sub(odist.div(outerRadius).saturate());
-            const oinfluence = ofalloff.mul(ofalloff).mul(outerStrength);
-            const opushX = odx.div(odist).mul(oinfluence);
-            const opushZ = odz.div(odist).mul(oinfluence);
-
-            const cdx = bx.sub(camSphereWorld.x);
-            const cdz = bz.sub(camSphereWorld.z);
-            const cdist = sqrt(cdx.mul(cdx).add(cdz.mul(cdz))).add(0.0001);
-            const cfalloff = float(1).sub(cdist.div(camSphereRadius).saturate());
-            const cinfluence = cfalloff.mul(cfalloff).mul(camSphereStrength);
-            const cpushX = cdx.div(cdist).mul(cinfluence);
-            const cpushZ = cdz.div(cdist).mul(cinfluence);
-
-            const totalPushX = pushX.add(opushX).add(cpushX);
-            const totalPushZ = pushZ.add(opushZ).add(cpushZ);
-
-            const targetMag = sqrt(totalPushX.mul(totalPushX).add(totalPushZ.mul(totalPushZ)));
-            const currentMag = sqrt(bend.z.mul(bend.z).add(bend.w.mul(bend.w)));
-            const lm = select(targetMag.greaterThan(currentMag), deltaTime.mul(12.0), deltaTime.mul(1)).saturate();
-            bend.z.assign(mix(bend.z, totalPushX, lm));
-            bend.w.assign(mix(bend.w, totalPushZ, lm));
-        })().compute(BLADE_COUNT);
-
-        function createBladeGeometry() {
-            const segs = 5, W = 0.055, H = 1.0;
-            const verts = [], norms = [], uvArr = [], idx = [];
-            for (let i = 0; i <= segs; i++) {
-                const t = i / segs, y = t * H, hw = W * 0.5 * (1.0 - t * 0.82);
-                verts.push(-hw, y, 0, hw, y, 0);
-                norms.push(0, 0, 1, 0, 0, 1);
-                uvArr.push(0, t, 1, t);
-            }
-            for (let i = 0; i < segs; i++) { const b = i * 2; idx.push(b, b + 1, b + 2, b + 1, b + 3, b + 2); }
-            const geo = new THREE.BufferGeometry();
-            geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
-            geo.setAttribute('normal', new THREE.Float32BufferAttribute(norms, 3));
-            geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvArr, 2));
-            geo.setIndex(idx);
-            return geo;
-        }
-
-        const grassMat = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide, fog: true });
-
-        grassMat.positionNode = Fn(() => {
-            const blade = bladeData.element(instanceIndex);
-            const bend = bendState.element(instanceIndex);
-            const worldX = blade.x, worldZ = blade.y, rotY = blade.z;
-            const boundary = bladeBound.element(instanceIndex);
-            const visible = select(hash(instanceIndex.add(9999)).lessThan(grassDensity.mul(0.5)), float(1), float(0));
-            const hVar = hash(instanceIndex.add(5555)).mul(bladeHeightVariation);
-            // ── Forma de CABEZA: corto al centro, muy largo en orillas/costados ──
-            const dCenter = sqrt(worldX.mul(worldX).add(worldZ.mul(worldZ)));
-            const radial = smoothstep(float(2.0), float(11.0), dCenter); // 0 centro · 1 orilla
-            // El cabello del frente (lado de la cámara, Z+) se acorta ~50% para no tapar la vista
-            const frontDamp = float(1).sub(smoothstep(float(1.0), float(9.0), worldZ).mul(0.55));
-            const radialLen = float(0.4).add(radial.mul(radial).mul(2.56)).mul(frontDamp); // melena larga en costados/atrás (-20% en bordes)
-            const heightScale = float(0.35).add(blade.w).add(hVar).mul(boundary).mul(visible).mul(radialLen);
-            const taper = float(1).sub(uv().y.mul(float(1).sub(bladeTipWidth)));
-            const lx = positionGeometry.x.mul(bladeWidth).mul(taper).mul(heightScale.sign());
-            const ly = positionGeometry.y.mul(heightScale).mul(bladeHeight);
-            const cY = cos(rotY), sY = sin(rotY);
-            const rx = lx.mul(cY), rz = lx.mul(sY);
-            const t = uv().y;
-            const bendFactor = pow(t, 1.45);
-            // ── Campo de flujo: mechones vecinos caen en la misma dirección (cabello peinado) ──
-            const flowN = noise2D(worldX.mul(0.14).add(20), worldZ.mul(0.14).add(20));
-            const flowAngle = flowN.mul(PI.mul(3.0));
-            const flowMag = bladeLean.mul(1.15);
-            const jitter = bladeLean.mul(0.3);
-            const staticBendX = cos(flowAngle).mul(flowMag).add(hash(instanceIndex.add(7777)).sub(0.5).mul(jitter));
-            const staticBendZ = sin(flowAngle).mul(flowMag).add(hash(instanceIndex.add(8888)).sub(0.5).mul(jitter));
-            // Caída radial: las orillas (cabello largo) cuelgan hacia afuera del centro
-            const outX = worldX.div(dCenter.add(0.001));
-            const outZ = worldZ.div(dCenter.add(0.001));
-            const drape = radial.mul(radial).mul(2.6);
-            const bendX = staticBendX.add(bend.x).add(bend.z).add(outX.mul(drape));
-            const bendZ = staticBendZ.add(bend.y).add(bend.w).add(outZ.mul(drape));
-            const relX = rx.add(bendX.mul(bendFactor).mul(bladeHeight));
-            const relY = ly;
-            const relZ = rz.add(bendZ.mul(bendFactor).mul(bladeHeight));
-            const origLen = sqrt(rx.mul(rx).add(ly.mul(ly)).add(rz.mul(rz)));
-            const newLen = sqrt(relX.mul(relX).add(relY.mul(relY)).add(relZ.mul(relZ)));
-            const scale = origLen.div(newLen.max(0.0001));
-            return vec3(worldX.add(relX.mul(scale)), relY.mul(scale), worldZ.add(relZ.mul(scale)));
-        })();
-
-        grassMat.colorNode = Fn(() => {
-            const t = uv().y;
-            const clump = bladeData.element(instanceIndex).w.saturate();
-            const bladeHash = hash(instanceIndex.add(4242));
-            const isGolden = bladeHash.lessThan(0.4);
-            const lowerGrad = smoothstep(float(0.0), float(0.45), t);
-            const upperGrad = smoothstep(float(0.4), float(0.85), t);
-            const tipMix = float(1).sub(bladeColorVariation).add(clump.mul(bladeColorVariation));
-            const greenTip = mix(greenTipColor, bladeTipColor, tipMix);
-            const warmTip = mix(greenTipColor, goldenTipColor, tipMix);
-            const tipFinal = mix(greenTip, warmTip, select(isGolden, float(1), float(0)));
-            const lowerColor = mix(bladeBaseColor, midColor, lowerGrad);
-            const grassColor = mix(lowerColor, tipFinal, upperGrad);
-            const blade = bladeData.element(instanceIndex);
-            const dist = sqrt(blade.x.mul(blade.x).add(blade.y.mul(blade.y)));
-            const fogFactor = smoothstep(fogStart, fogEnd, dist).mul(fogIntensity);
-            return mix(grassColor, fogColor, fogFactor);
-        })();
-
-        grassMat.opacityNode = Fn(() => {
-            const blade = bladeData.element(instanceIndex);
-            const dist = sqrt(blade.x.mul(blade.x).add(blade.y.mul(blade.y)));
-            const fadeEnd = select(fogIntensity.greaterThan(0.01), fogEnd.add(2.0), float(15.0));
-            const fadeFactor = float(1).sub(smoothstep(fadeEnd.sub(5.0), fadeEnd, dist));
-            return smoothstep(float(0.0), float(0.1), uv().y).mul(fadeFactor);
-        })();
-        grassMat.transparent = true;
-
-        const bladeGeo = createBladeGeometry();
-        const grass = new THREE.InstancedMesh(bladeGeo, grassMat, BLADE_COUNT);
-        grass.frustumCulled = false;
-        scene.add(grass);
-        const dummy = new THREE.Object3D();
-        for (let i = 0; i < BLADE_COUNT; i++) grass.setMatrixAt(i, dummy.matrix);
-        grass.instanceMatrix.needsUpdate = true;
-
-        const groundMat = new THREE.MeshBasicNodeMaterial();
-        groundMat.colorNode = Fn(() => {
-            const wx = positionWorld.x, wz = positionWorld.z;
-            const dist = sqrt(wx.mul(wx).add(wz.mul(wz)));
-            const edgeNoise = noise2D(wx.mul(0.25).add(100), wz.mul(0.25).add(100));
-            const maxR = groundRadius.add(edgeNoise.sub(0.5).mul(4.0));
-            const t = smoothstep(maxR.sub(groundFalloff), maxR, dist);
-            return mix(groundColor, backgroundColor, t);
-        })();
-        const ground = new THREE.Mesh(new THREE.PlaneGeometry(FIELD_SIZE * 5, FIELD_SIZE * 5), groundMat);
-        ground.rotation.x = -Math.PI / 2;
-        scene.add(ground);
-
-        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-        const dirLight = new THREE.DirectionalLight(0xffe6c0, 1.6);
-        dirLight.position.set(5, 10, 7);
-        scene.add(dirLight);
-
-        const postProcessing = new THREE.PostProcessing(renderer);
-        const scenePass = pass(scene, camera);
-        scenePass.setMRT(mrt({ output: output, normal: transformedNormalView }));
-        const sceneColor = scenePass.getTextureNode('output');
-        const sceneViewZ = scenePass.getViewZNode();
-        const dofOutput = dof(sceneColor, sceneViewZ, focusDistanceU, focalLengthU, bokehScaleU);
-
-        postProcessing.outputNode = isMobile ? sceneColor : dofOutput;
-        if (isMobile) dofEnabled = false;
-        postProcessing.needsUpdate = true;
-
-        function rebuildPipeline() {
-            postProcessing.outputNode = dofEnabled ? dofOutput : sceneColor;
-            postProcessing.needsUpdate = true;
-        }
-
-        const raycaster = new THREE.Raycaster();
-        const mouseNDC = new THREE.Vector2();
-        const grassPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-        const hitPoint = new THREE.Vector3();
-
-        window.addEventListener('mousemove', (e) => {
-            mouseNDC.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
-            raycaster.setFromCamera(mouseNDC, camera);
-            if (raycaster.ray.intersectPlane(grassPlane, hitPoint)) {
-                mouseWorld.value.copy(hitPoint);
-                mouseFocusDist = camera.position.distanceTo(hitPoint);
-            }
+      // progress + nav anchors via smoother
+      ScrollTrigger.create({
+        start: 0, end: 'max',
+        onUpdate: self => { document.getElementById('progress').style.width = (self.progress * 100) + '%'; }
+      });
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const t = document.querySelector(a.getAttribute('href'));
+          if (t){ e.preventDefault(); smoother.scrollTo(t, true, 'top top'); }
         });
-        window.addEventListener('mouseleave', () => mouseWorld.value.set(99999, 0, 99999));
+      });
 
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                camera.aspect = innerWidth / innerHeight;
-                camera.updateProjectionMatrix();
-                const dpr = IS_MOBILE ? 1.0 : (window.innerWidth < 1200 ? 1.5 : Math.min(devicePixelRatio, 2));
-                renderer.setPixelRatio(dpr);
-                renderer.setSize(innerWidth, innerHeight);
-            }, 100);
+      // ── nav: oscuro sobre secciones crema ───────
+      const navEl = document.getElementById('nav');
+      ['.manifesto', '.services', '.quote', '.stats'].forEach(sel => {
+        const t = document.querySelector(sel);
+        if (!t) return;
+        ScrollTrigger.create({
+          trigger: t, start: 'top 64px', end: 'bottom 64px',
+          onToggle: self => navEl.classList.toggle('nav-dark', self.isActive)
         });
+      });
 
-        let windBurst = 0;
-        let _baseWindSpeed = 1.1;
-        let _baseWindAmp = 0.24;
-        const globalDofEnabled = !isMobile;
+      if (reduce) return;
 
-        const stageNames = ['Hero', 'Filosofía', 'Servicios', 'Stats', 'Quote', 'CTA', 'Footer'];
+      // ── HERO intro ──────────────────────────────
+      const heroTitle = document.querySelector('[data-hero="title"]');
+      const heroSplit = new SplitText(heroTitle, { type:'chars,words', charsClass:'char', wordsClass:'word' });
+      const tlHero = gsap.timeline({ defaults:{ ease:'power4.out' } });
+      tlHero.from(heroSplit.chars, { yPercent:115, duration:1.1, stagger:0.045 }, 0.15)
+            .from('[data-hero="l1"]', { yPercent:120, opacity:0, duration:0.9 }, 0.25)
+            .to('[data-hero="kickers"]', { opacity:1, duration:0.8 }, 0.5)
+            .to('[data-hero="scroll"]', { opacity:1, duration:0.8 }, 0.7);
 
-        const stageParamDefs = {
-            fogStart:    { u: fogStart,    def: 6.5,  group: 'Fog' },
-            fogEnd:      { u: fogEnd,      def: 12.0, group: 'Fog' },
-            fogIntensity:{ u: fogIntensity, def: 1.0, group: 'Fog' },
-            fogR:        { def: 0.039, isColor: 'fogColor', ch: 'r' },
-            fogG:        { def: 0.024, isColor: 'fogColor', ch: 'g' },
-            fogB:        { def: 0.016, isColor: 'fogColor', ch: 'b' },
-            grassDensity:      { u: grassDensity,        def: 1.0 },
-            bladeWidth:        { u: bladeWidth,           def: 2.3 },
-            bladeTipWidth:     { u: bladeTipWidth,        def: 0.06 },
-            bladeHeight:       { u: bladeHeight,          def: 3.4 },
-            bladeHeightVar:    { u: bladeHeightVariation, def: 0.7 },
-            bladeLean:         { u: bladeLean,            def: 2.1 },
-            windSpeed:    { u: windSpeed,     def: 1.1 },
-            windAmplitude:{ u: windAmplitude,  def: 0.24 },
-            noiseAmp:     { u: noiseAmplitude,  def: 1.85 },
-            noiseFreq:    { u: noiseFrequency,  def: 0.3 },
-            noise2Amp:    { u: noise2Amplitude, def: 0.2 },
-            noise2Freq:   { u: noise2Frequency, def: 15 },
-            mouseRadius:   { u: mouseRadius,   def: 6.1 },
-            mouseStrength: { u: mouseStrength,  def: 4.0 },
-            outerRadius:   { u: outerRadius,    def: 9.4 },
-            outerStrength: { u: outerStrength,   def: 1.45 },
-            camSphereRadius:   { def: 15.0 },
-            camSphereStrength: { def: 5.9 },
-            bladeBaseR: { def: 0.353, isColor: 'bladeBaseColor', ch: 'r' },
-            bladeBaseG: { def: 0.118, isColor: 'bladeBaseColor', ch: 'g' },
-            bladeBaseB: { def: 0.047, isColor: 'bladeBaseColor', ch: 'b' },
-            bladeTipR:  { def: 0.941, isColor: 'bladeTipColor', ch: 'r' },
-            bladeTipG:  { def: 0.569, isColor: 'bladeTipColor', ch: 'g' },
-            bladeTipB:  { def: 0.353, isColor: 'bladeTipColor', ch: 'b' },
-            goldenTipR: { def: 1.000, isColor: 'goldenTipColor', ch: 'r' },
-            goldenTipG: { def: 0.604, isColor: 'goldenTipColor', ch: 'g' },
-            goldenTipB: { def: 0.369, isColor: 'goldenTipColor', ch: 'b' },
-            greenTipR:  { def: 0.769, isColor: 'greenTipColor', ch: 'r' },
-            greenTipG:  { def: 0.314, isColor: 'greenTipColor', ch: 'g' },
-            greenTipB:  { def: 0.122, isColor: 'greenTipColor', ch: 'b' },
-            midR:       { def: 0.659, isColor: 'midColor', ch: 'r' },
-            midG:       { def: 0.239, isColor: 'midColor', ch: 'g' },
-            midB:       { def: 0.094, isColor: 'midColor', ch: 'b' },
-            colorVar:   { u: bladeColorVariation, def: 0.93 },
-        };
+      // hero parallax title up on scroll
+      gsap.to('.hero-title', { yPercent:-40, opacity:0.2, ease:'none',
+        scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
 
-        const stageParamKeys = Object.keys(stageParamDefs);
+      // ── MANIFESTO pinned line → image reveal ────
+      const barH = isMobile ? 64 : 70;       // vh objetivo de la barra
+      const tlMani = gsap.timeline({
+        scrollTrigger:{ trigger:'.manifesto', start:'top top', end:'+=140%', pin:true, scrub:1 }
+      });
+      tlMani
+        .set('#maniBar img', { opacity:0 })
+        .to('#maniBar', { height: barH + 'vh', duration:0.35, ease:'power2.inOut' })
+        .to('#maniBar img', { opacity:1, duration:0.25 }, '-=0.1')
+        .to('#maniBar', { width:'min(86vw, 560px)', duration:0.45, ease:'power3.inOut' })
+        .to('.mani-word.left',  { autoAlpha:0.15, x: isMobile?0:-40, y:isMobile?-30:0, duration:0.4 }, '<')
+        .to('.mani-word.right', { autoAlpha:0.15, x: isMobile?0: 40, y:isMobile? 30:0, duration:0.4 }, '<');
 
-        const colorUniformMap = {
-            fogColor, bladeBaseColor, bladeTipColor, goldenTipColor, greenTipColor, midColor,
-        };
+      // ── PILLARS ghost text + big words ──────────
+      gsap.to('#ghost', { xPercent:-35, ease:'none',
+        scrollTrigger:{ trigger:'.pillars', start:'top bottom', end:'bottom top', scrub:1 } });
 
-        function getDefaultParams() {
-            const p = {};
-            stageParamKeys.forEach(k => {
-                const d = stageParamDefs[k];
-                if (d.isColor && d.ch) {
-                    const cu = colorUniformMap[d.isColor];
-                    p[k] = cu ? cu.value[d.ch] : d.def;
-                } else {
-                    p[k] = d.def;
-                }
-            });
-            return p;
-        }
+      gsap.utils.toArray('[data-clip]').forEach(el => {
+        gsap.from(el, { clipPath:'inset(0 0 100% 0)', duration:1.1, ease:'power4.out',
+          scrollTrigger:{ trigger:el, start:'top 88%' } });
+      });
 
-        // [scroll, posX, posY, posZ, lookX, lookY, lookZ, focusDist, autoFocus, dofOn, focalLen, bokehScale, afSpeed, afMin, afMax]
-        const cameraPath = [
-            [0.00, -2.8,  7.2, 19.6,  0.5, 1.5,  0.4, 22.0, 1, 1, 10.0, 12.5, 5.0, 1.0, 40.0],  // Hero
-            [0.14,  0,    2.2, 14.0,  0,  -2.0,   0,   15.0, 1, 1,  8.0, 10.0, 5.0, 1.0, 30.0],  // Filosofía
-            [0.28,  7.5, 10.9, 15.8,  0,   0.0,   0.7, 10.0, 1, 1,  6.0,  8.0, 5.0, 0.5, 20.0],  // Servicios
-            [0.43, -8.0,  6.8, 21.6,  0,   0.2,   0,    7.0, 1, 1,  5.0, 10.0, 5.0, 0.5, 15.0],  // Stats
-            [0.57, -1.0,  5.3, 25.0, -1.2, 3.0,   0,    5.0, 1, 1,  4.0, 14.0, 6.0, 1.1, 21.5],  // Quote
-            [0.78, -1.6,  8.0, 12.0, -1.2,  0.5,   0.0, 14.0, 1, 1, 12.0, 14.0, 19.0, 2.8, 12.5],  // CTA
-            [1.00,  0,   15.0,  0.0, -5,   3.0,  -5,    9.8, 1, 1, 13.8,  0.0, 17.5, 1.2,  9.0],  // Footer
-        ];
-
-        const stageParams = cameraPath.map(() => getDefaultParams());
-        // Give a couple of stages distinct grass character
-        stageParams[3].bladeHeight = 3.6; stageParams[3].bladeHeightVar = 1.0; stageParams[3].bladeLean = 1.4;
-        // De la sección de la cita (stage 4) hacia abajo: mucha más densidad y niebla
-        // más lejana para que no aparezcan huecos vacíos al hacer scroll. Además hebras
-        // más anchas y con punta menos afilada para que no se vean como rayos/picos
-        // con cuñas oscuras entre ellos, sino como una melena llena.
-        stageParams[4].grassDensity = 2.0; stageParams[4].fogStart = 12.0; stageParams[4].fogEnd = 22.0; stageParams[4].bladeWidth = 3.4; stageParams[4].bladeTipWidth = 0.34;
-        stageParams[5].grassDensity = 2.0; stageParams[5].fogStart = 12.0; stageParams[5].fogEnd = 22.0; stageParams[5].bladeHeight = 3.2; stageParams[5].bladeLean = 1.6; stageParams[5].bladeWidth = 3.6; stageParams[5].bladeTipWidth = 0.38;
-        stageParams[6].grassDensity = 2.0; stageParams[6].fogStart = 10.0; stageParams[6].fogEnd = 24.0; stageParams[6].bladeHeight = 3.6; stageParams[6].bladeWidth = 3.4; stageParams[6].bladeTipWidth = 0.34;
-
-        function lerpCam(scrollT) {
-            const snapThreshold = 0.005;
-            for (let j = 0; j < cameraPath.length; j++) {
-                if (Math.abs(cameraPath[j][0] - scrollT) < snapThreshold) {
-                    const kf = cameraPath[j];
-                    return {
-                        px: kf[1], py: kf[2], pz: kf[3], lx: kf[4], ly: kf[5], lz: kf[6],
-                        fd: kf[7], af: kf[8], dofOn: kf[9], fl: kf[10], bk: kf[11],
-                        afSpd: kf[12], afMin: kf[13], afMax: kf[14], params: { ...stageParams[j] },
-                    };
-                }
-            }
-            let i = 0;
-            for (let j = 1; j < cameraPath.length; j++) {
-                if (cameraPath[j][0] >= scrollT) { i = j - 1; break; }
-                if (j === cameraPath.length - 1) i = j - 1;
-            }
-            const a = cameraPath[i], b = cameraPath[Math.min(i + 1, cameraPath.length - 1)];
-            const range = b[0] - a[0];
-            const t = range > 0 ? Math.max(0, Math.min(1, (scrollT - a[0]) / range)) : 0;
-            const ease = t * t * (3 - 2 * t);
-            const iB = Math.min(i + 1, cameraPath.length - 1);
-            const pA = stageParams[i], pB = stageParams[iB];
-            const lerpedParams = {};
-            stageParamKeys.forEach(k => { lerpedParams[k] = pA[k] + (pB[k] - pA[k]) * ease; });
-            return {
-                px: a[1] + (b[1] - a[1]) * ease, py: a[2] + (b[2] - a[2]) * ease, pz: a[3] + (b[3] - a[3]) * ease,
-                lx: a[4] + (b[4] - a[4]) * ease, ly: a[5] + (b[5] - a[5]) * ease, lz: a[6] + (b[6] - a[6]) * ease,
-                fd: a[7] + (b[7] - a[7]) * ease, af: a[8] + (b[8] - a[8]) * ease, dofOn: a[9] + (b[9] - a[9]) * ease,
-                fl: a[10] + (b[10] - a[10]) * ease, bk: a[11] + (b[11] - a[11]) * ease,
-                afSpd: a[12] + (b[12] - a[12]) * ease, afMin: a[13] + (b[13] - a[13]) * ease, afMax: a[14] + (b[14] - a[14]) * ease,
-                params: lerpedParams,
-            };
-        }
-
-        let currentScrollT = 0;
-        let targetScrollT = 0;
-
-        function getScrollProgress() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-            return scrollable > 0 ? Math.min(1, Math.max(0, scrollTop / scrollable)) : 0;
-        }
-
-        function syncCameraPathToDOM() {
-            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-            if (scrollable <= 0) return;
-            cameraPath.forEach((kf, i) => {
-                const section = document.querySelector(`.section[data-stage="${i}"]`);
-                if (section) kf[0] = Math.min(1, Math.max(0, section.offsetTop / scrollable));
-            });
-            cameraPath[cameraPath.length - 1][0] = 1.0;
-        }
-
-        syncCameraPathToDOM();
-        window.addEventListener('resize', () => setTimeout(syncCameraPathToDOM, 100));
-        window.addEventListener('load', () => {
-            setTimeout(syncCameraPathToDOM, 200);
-            setTimeout(syncCameraPathToDOM, 1000);
+      // ── SplitText reveals (chars / lines) ───────
+      gsap.utils.toArray('[data-split]').forEach(el => {
+        const type = el.dataset.split;
+        const split = new SplitText(el, { type:'chars,words,lines', linesClass:'lines-mask' });
+        const targets = type === 'lines' ? split.lines : split.chars;
+        gsap.from(targets, {
+          yPercent: type === 'lines' ? 110 : 100,
+          opacity: 0, duration: 0.95, ease:'power3.out',
+          stagger: type === 'lines' ? 0.12 : 0.02,
+          scrollTrigger:{ trigger:el, start:'top 85%' }
         });
+      });
 
-        let _scrollDirty = false;
-        window.addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
-        window.addEventListener('touchmove', () => { _scrollDirty = true; }, { passive: true });
+      // ── fades ───────────────────────────────────
+      gsap.utils.toArray('[data-fade]').forEach(el => {
+        gsap.from(el, { y:36, opacity:0, duration:1, ease:'power3.out',
+          scrollTrigger:{ trigger:el, start:'top 90%' } });
+      });
 
-        const progressBar = document.getElementById('progressBar');
-        const navFloat = document.getElementById('navFloat');
+      // ── GALLERY figure reveals ──────────────────
+      // (el parallax vertical lo da data-speed de ScrollSmoother; aquí solo el reveal)
+      gsap.utils.toArray('.gx-fig').forEach(fig => {
+        gsap.from(fig, { clipPath:'inset(100% 0 0 0)', duration:1.2, ease:'power4.out',
+          scrollTrigger:{ trigger:fig, start:'top 90%' } });
+      });
 
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const delay = el.dataset.delay || '0';
-                    el.classList.add('revealed', `delay-${delay}`);
-                    revealObserver.unobserve(el);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -18% 0px' });
+      // ── STATS count up ──────────────────────────
+      gsap.utils.toArray('[data-count]').forEach(el => {
+        const end = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const decimals = (end % 1 !== 0) ? 1 : 0;
+        const obj = { v:0 };
+        gsap.to(obj, { v:end, duration:1.6, ease:'power2.out',
+          scrollTrigger:{ trigger:el, start:'top 90%' },
+          onUpdate(){ el.textContent = obj.v.toFixed(decimals) + suffix; } });
+      });
 
-        document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
-
-        setTimeout(() => {
-            const hint = document.querySelector('.scroll-hint');
-            if (hint && !hint.classList.contains('revealed')) hint.classList.add('revealed', 'delay-4');
-        }, 800);
-
-        document.querySelectorAll('[data-nav]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = document.querySelector(`.section[data-stage="${link.dataset.nav}"]`);
-                if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
+      // ── SERVICES hover thumbnail (escritorio) ───
+      if (window.matchMedia('(hover:hover)').matches){
+        const thumb = document.createElement('div');
+        thumb.className = 'svc-thumb';
+        thumb.innerHTML = '<img alt="">';
+        document.body.appendChild(thumb);
+        const timg = thumb.querySelector('img');
+        const xT = gsap.quickTo(thumb,'x',{duration:0.5,ease:'power3'});
+        const yT = gsap.quickTo(thumb,'y',{duration:0.5,ease:'power3'});
+        document.querySelectorAll('.svc-row').forEach(row => {
+          row.addEventListener('mouseenter', () => { timg.src = row.dataset.thumb; gsap.to(thumb,{opacity:1,scale:1,duration:0.4,ease:'power3.out'}); });
+          row.addEventListener('mouseleave', () => { gsap.to(thumb,{opacity:0,scale:0.85,duration:0.3}); });
         });
+        window.addEventListener('mousemove', e => { xT(e.clientX); yT(e.clientY); });
+      }
 
-        const navHamburger = document.getElementById('navHamburger');
-        const navMobileOverlay = document.getElementById('navMobileOverlay');
-        navHamburger.addEventListener('click', () => {
-            navHamburger.classList.toggle('open');
-            navMobileOverlay.classList.toggle('open');
-        });
-        document.querySelectorAll('[data-nav-mobile]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = document.querySelector(`.section[data-stage="${link.dataset.navMobile}"]`);
-                navHamburger.classList.remove('open');
-                navMobileOverlay.classList.remove('open');
-                if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
+      ScrollTrigger.refresh();
+    }
 
-        await renderer.computeAsync(computeInit);
-
-        renderer.domElement.style.opacity = '0';
-        renderer.domElement.style.transition = 'opacity 0.5s ease';
-        for (let i = 0; i < 3; i++) {
-            renderer.compute(computeUpdate);
-            if (IS_MOBILE) renderer.render(scene, camera);
-            else postProcessing.render();
-            await new Promise(r => requestAnimationFrame(r));
-        }
-        renderer.domElement.style.opacity = '1';
-
-        const clock = new THREE.Clock();
-        const lookTarget = new THREE.Vector3();
-        const _siteFooter = document.querySelector('.site-footer');
-        const _scrollHint = document.querySelector('.scroll-hint');
-
-        function animate() {
-            const dt = Math.min(clock.getDelta(), 0.05);
-
-            if (_scrollDirty) { targetScrollT = getScrollProgress(); _scrollDirty = false; }
-            currentScrollT += (targetScrollT - currentScrollT) * Math.min(1, dt * 6);
-
-            const cam = lerpCam(currentScrollT);
-            camera.position.set(cam.px, cam.py, cam.pz);
-            lookTarget.set(cam.lx, cam.ly, cam.lz);
-            camera.lookAt(lookTarget);
-
-            if (_siteFooter) {
-                const footerTop = _siteFooter.getBoundingClientRect().top;
-                renderer.domElement.style.transform = footerTop < window.innerHeight
-                    ? `translateY(-${window.innerHeight - footerTop}px)` : '';
-            }
-
-            progressBar.style.width = (currentScrollT * 100) + '%';
-            navFloat.classList.toggle('visible', currentScrollT > 0.08);
-            if (_scrollHint) _scrollHint.style.opacity = Math.max(0, 1 - currentScrollT * 15);
-
-            camSphereWorld.value.set(camera.position.x, 0, camera.position.z);
-
-            if (cam.params) {
-                const p = cam.params;
-                fogStart.value = p.fogStart; fogEnd.value = p.fogEnd; fogIntensity.value = p.fogIntensity;
-                fogColor.value.setRGB(p.fogR, p.fogG, p.fogB);
-                if (scene.fog) scene.fog.color.setRGB(p.fogR, p.fogG, p.fogB);
-                grassDensity.value = p.grassDensity; bladeWidth.value = p.bladeWidth;
-                bladeTipWidth.value = p.bladeTipWidth; bladeHeight.value = p.bladeHeight;
-                bladeHeightVariation.value = p.bladeHeightVar; bladeLean.value = p.bladeLean;
-                _baseWindSpeed = p.windSpeed; _baseWindAmp = p.windAmplitude;
-                noiseAmplitude.value = p.noiseAmp; noiseFrequency.value = p.noiseFreq;
-                noise2Amplitude.value = p.noise2Amp; noise2Frequency.value = p.noise2Freq;
-                mouseRadius.value = p.mouseRadius; mouseStrength.value = p.mouseStrength;
-                outerRadius.value = p.outerRadius; outerStrength.value = p.outerStrength;
-                bladeBaseColor.value.setRGB(p.bladeBaseR, p.bladeBaseG, p.bladeBaseB);
-                bladeTipColor.value.setRGB(p.bladeTipR, p.bladeTipG, p.bladeTipB);
-                goldenTipColor.value.setRGB(p.goldenTipR, p.goldenTipG, p.goldenTipB);
-                greenTipColor.value.setRGB(p.greenTipR, p.greenTipG, p.greenTipB);
-                midColor.value.setRGB(p.midR, p.midG, p.midB);
-                bladeColorVariation.value = p.colorVar;
-                camSphereRadius.value = p.camSphereRadius; camSphereStrength.value = p.camSphereStrength;
-            }
-
-            const camHeight = camera.position.y;
-            const proximityT = Math.max(0, 1 - camHeight / 10);
-            const proxCurve = proximityT * proximityT;
-            camSphereRadius.value = Math.min(15, camSphereRadius.value * (0.3 + proxCurve * 0.7));
-            camSphereStrength.value = camSphereStrength.value * (0.1 + proxCurve * 0.9);
-
-            windSpeed.value = _baseWindSpeed;
-            windAmplitude.value = _baseWindAmp;
-            if (windBurst > 0) {
-                windBurst -= dt * 0.6;
-                const burstT = Math.max(0, windBurst / 4.0);
-                const eased = burstT * burstT * (3 - 2 * burstT);
-                windSpeed.value += eased * 4.5;
-                windAmplitude.value += eased * 0.45;
-            }
-
-            {
-                const dofWeight = typeof cam.dofOn === 'number' ? cam.dofOn : 1;
-                const shouldDof = globalDofEnabled && dofWeight > 0.5;
-                if (shouldDof !== dofEnabled) { dofEnabled = shouldDof; rebuildPipeline(); }
-                if (dofEnabled) {
-                    const autoWeight = typeof cam.af === 'number' ? Math.max(0, Math.min(1, cam.af)) : 0;
-                    const mouseOnField = mouseWorld.value.x < 9000;
-                    const afSpeed = cam.afSpd || 5.0, afMin = cam.afMin || 0.5, afMax = cam.afMax || 40.0;
-                    let rawAutoFocus = mouseOnField ? mouseFocusDist : Math.max(0.5, Math.sqrt(cam.py * cam.py + cam.pz * cam.pz) * 0.9);
-                    rawAutoFocus = Math.max(afMin, Math.min(afMax, rawAutoFocus));
-                    autoFocusSmoothed += (rawAutoFocus - autoFocusSmoothed) * Math.min(1, dt * afSpeed);
-                    const targetFocus = cam.fd * (1 - autoWeight) + autoFocusSmoothed * autoWeight;
-                    focusDistanceU.value += (targetFocus - focusDistanceU.value) * Math.min(1, dt * 8);
-                    focalLengthU.value += (cam.fl - focalLengthU.value) * Math.min(1, dt * 6);
-                    bokehScaleU.value += (cam.bk - bokehScaleU.value) * Math.min(1, dt * 6);
-                }
-            }
-
-            renderer.compute(computeUpdate);
-            // En móvil renderizamos directo (sin post-procesado ni MRT) para ahorrar
-            // un render target a pantalla completa, que en alta resolución pesa mucho.
-            if (IS_MOBILE) renderer.render(scene, camera);
-            else postProcessing.render();
-        }
-
-        renderer.setAnimationLoop(animate);
-    </script>
+    function start(){
+      if (window.gsap && window.ScrollTrigger && window.ScrollSmoother && window.SplitText){
+        try { initGSAP(); } catch(err){ console.error('GSAP init', err); }
+      }
+    }
+    window.addEventListener('load', () => { start(); setTimeout(()=>window.ScrollTrigger && ScrollTrigger.refresh(), 400); });
+  </script>
 </body>
 </html>
