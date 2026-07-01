@@ -148,21 +148,19 @@
   .sec-head h2{ font-size:clamp(40px,8vw,110px); color:var(--ink); line-height:0.9; }
   .sec-head .label{ color:var(--red); }
   .svc-row{
-    display:grid; grid-template-columns:54px 1fr auto; gap:clamp(12px,3vw,40px); align-items:center;
+    display:grid; grid-template-columns:1fr auto; gap:clamp(12px,3vw,40px); align-items:center;
     padding:clamp(20px,3vw,34px) clamp(14px,2vw,26px); border-bottom:1px solid rgba(22,18,16,.14);
     position:relative; isolation:isolate; transition:padding .5s var(--ease);
   }
   /* relleno rojo que sube al hacer hover */
   .svc-row::before{ content:''; position:absolute; inset:0; background:var(--red); transform:scaleY(0); transform-origin:bottom; transition:transform .5s var(--ease); z-index:-1; }
   .svc-row>*{ transition:color .35s; }
-  .svc-row .svc-num{ font-size:12px; letter-spacing:0.12em; color:var(--red); }
   .svc-main{ display:flex; flex-direction:column; gap:8px; }
   .svc-main h3{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:clamp(28px,5vw,56px); line-height:0.98; color:var(--ink); transition:color .35s, transform .45s var(--ease); }
   .svc-main p{ font-size:12px; line-height:1.6; color:var(--ink-soft); max-width:48ch; transition:color .35s; }
   @media(hover:hover){
     .svc-row:hover{ padding-left:clamp(24px,3vw,40px); }
     .svc-row:hover::before{ transform:scaleY(1); }
-    .svc-row:hover .svc-num,
     .svc-row:hover .svc-main h3,
     .svc-row:hover .svc-main p,
     .svc-row:hover .svc-price,
@@ -241,8 +239,8 @@
     .gx-d{ grid-column:1/13; aspect-ratio:16/10; }
     .stats-grid{ grid-template-columns:1fr 1fr; gap:30px 20px; }
     .footer-top{ grid-template-columns:1fr 1fr; }
-    .svc-row{ grid-template-columns:38px 1fr; }
-    .svc-price{ grid-column:2; text-align:left; }
+    .svc-row{ grid-template-columns:1fr; }
+    .svc-price{ grid-column:1; text-align:left; }
   }
   @media(max-width:480px){
     .pillars-grid{ grid-template-columns:1fr; }
@@ -354,32 +352,26 @@
         </div>
 
         <div class="svc-row">
-          <span class="svc-num">01</span>
           <div class="svc-main"><h3>Balayage</h3><p>Iluminaciones a mano alzada, transiciones impecables y un efecto natural que dura.</p></div>
           <div class="svc-price"><small>Desde</small>$2,800</div>
         </div>
         <div class="svc-row">
-          <span class="svc-num">02</span>
           <div class="svc-main"><h3>Efectos de color</h3><p>De rubios glaciales a fantasías. Color vibrante diseñado para destacar.</p></div>
           <div class="svc-price"><small>Desde</small>$3,500</div>
         </div>
         <div class="svc-row">
-          <span class="svc-num">03</span>
           <div class="svc-main"><h3>Corte de autor</h3><p>Cortes que entienden tu rostro, tu textura y tu estilo de vida. Movimiento a tu favor.</p></div>
           <div class="svc-price"><small>Desde</small>$850</div>
         </div>
         <div class="svc-row">
-          <span class="svc-num">04</span>
           <div class="svc-main"><h3>Tratamientos capilares</h3><p>Rituales de restauración y nutrición profunda. Fuerza, brillo y suavidad de vuelta.</p></div>
           <div class="svc-price"><small>Desde</small>$1,200</div>
         </div>
         <div class="svc-row">
-          <span class="svc-num">05</span>
           <div class="svc-main"><h3>Extensiones</h3><p>Largo y volumen de aspecto natural con métodos premium, colocados con precisión.</p></div>
           <div class="svc-price"><small>Desde</small>$6,500</div>
         </div>
         <div class="svc-row">
-          <span class="svc-num">06</span>
           <div class="svc-main"><h3>Cita de valoración</h3><p>El punto de partida. Un diagnóstico personal antes de cualquier servicio · bonificable.</p></div>
           <div class="svc-price"><small>Desde</small>$300</div>
         </div>
